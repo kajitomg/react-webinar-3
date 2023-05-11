@@ -33,11 +33,9 @@ export function createElement(name, props = {}, ...children) {
  * @returns {Function}
  */
 export function createCounter(firstIndex) {
-
 	let index = firstIndex; // Замыкаем начальноого значения счетчика при вызове функции counter
 
 	return function () {
-
 		return index++
 	}
 }

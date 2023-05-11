@@ -54,7 +54,7 @@ class Store {
 
 	/**
 	 * Удаление записи по коду
-	 * @param code
+	 * @param code {Number}
 	 */
 	deleteItem(code) {
 		this.setState({
@@ -65,7 +65,7 @@ class Store {
 
 	/**
 	 * Выделение записи по коду
-	 * @param code
+	 * @param code {Number}
 	 */
 	selectItem(code) {
 		this.setState({
@@ -75,18 +75,30 @@ class Store {
 					item.selected = false
 				}
 				if (item.code === code) {
-					if (!item.selected) {
-						if (!item.selections) {
-							item.selections = 0 // Инициируем поле, так как в исходном массиве его нет
-						}
-						item.selections++
-					}
+					item.selections = this.#getIncreaseCounter(item)
 					item.selected = !item.selected;
 				}
 				return item;
 			})
 		})
 	}
+
+	/**
+	 * Увеличение значения счетчика
+	 * @param item {Object}
+	 * @returns {Number} Увеличенное значение счетчика или его инициализация
+	 */
+	#getIncreaseCounter(item) {
+		if (!item.selected) { // Проверка, так как повышение счетчика только при клике по невыбранному элементу
+			if (item.selections === undefined) {
+				return 1 // Инициируем поле, так как в исходном массиве его нет
+			}
+			return item.selections + 1
+		}
+		return item.selections;
+
+	}
+
 }
 
 export default Store;
