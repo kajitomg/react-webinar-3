@@ -13,36 +13,36 @@ import ProductList from "./components/productList";
  */
 function App({ store }) {
 
-	const [isModalOpened, setIsModalOpened] = useState(false);
-	const products = store.getState().products;
-	const cart = store.getState().cart;
+  const [isModalOpened, setIsModalOpened] = useState(false);
+  const products = store.getState().products;
+  const cart = store.getState().cart;
 
-	const callbacks = {
-		onDeleteItem: useCallback((product) => {
-			store.deleteItem(product);
-		}, [store]),
+  const callbacks = {
+    onDeleteItem: useCallback((product) => {
+      store.deleteItem(product);
+    }, [store]),
 
-		onAddItem: useCallback((product) => {
-			store.addItem(product);
-		}, [store])
-	}
+    onAddItem: useCallback((product) => {
+      store.addItem(product);
+    }, [store])
+  }
 
-	return (
-		<StoreContext.Provider value={{products,cart}}>
-			<PageLayout>
-				<Head title='Магазин' />
-				<Controls onOpen={() => setIsModalOpened(true)}/>
-				<ProductList
-					onAdd={callbacks.onAddItem}
-				/>
-				<Modal
-					isOpened={isModalOpened}
-					onClose={() => setIsModalOpened(!isModalOpened)}
-					onDelete={callbacks.onDeleteItem}
-				/>
-			</PageLayout>
-		</StoreContext.Provider>
-	);
+  return (
+    <StoreContext.Provider value={{products,cart}}>
+      <PageLayout>
+        <Head title='Магазин' />
+        <Controls onOpen={() => setIsModalOpened(true)}/>
+        <ProductList
+          onAdd={callbacks.onAddItem}
+        />
+        <Modal
+          isOpened={isModalOpened}
+          onClose={() => setIsModalOpened(!isModalOpened)}
+          onDelete={callbacks.onDeleteItem}
+        />
+      </PageLayout>
+    </StoreContext.Provider>
+  );
 }
 
 export default App;

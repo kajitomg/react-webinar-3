@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import PropTypes, {string} from "prop-types";
-import {plural} from "../../utils";
 import './style.css';
 import {Text} from "../../ui/text";
 
