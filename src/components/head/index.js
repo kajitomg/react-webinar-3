@@ -1,11 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import './style.css';
+import {Text} from "../../ui/text";
 
-function Head({title}){
+function Head(props){
   return (
     <div className='Head'>
-      <h1>{title}</h1>
+      <Text weight='bold' size='l' title={props.title} className='Head-title'/>
+      {props.children}
     </div>
   )
 }

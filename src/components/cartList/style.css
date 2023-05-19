@@ -1,0 +1,20 @@
+.List{
+}
+
+.List-item {
+  border-bottom: 1px dashed #ccc;
+}
+.List-item:first-child {
+  border-top: 1px dashed #ccc;
+}
+.Item-children{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 15px;
+}
+.Item-quantity{
+  white-space: nowrap;
+  margin: 0 0 0 40px;
+}
+

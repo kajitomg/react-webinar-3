@@ -41,48 +41,38 @@ class Store {
   }
 
   /**
-   * Добавление новой записи
+   * Добавление элемента в корзину
+   * @param product{Object} // Товар, добавляемый в корзину
    */
-  addItem() {
+  addItem(product) {
+    let include = false;  // Boolean флаг для определения добавляется уникальный товар, или уже выбранный
+    this.state.cart.map((item) => {
+      if(product.code === item.code){
+        item.quantity++; //Изменяем значение в элементе исходного массива this.state.cart //fix*Переписать не нарушая принцип иммутабельности
+        include = true;
+      }
+      return item
+    });
+    if(!include){
+      product.quantity = 1
+    }
     this.setState({
       ...this.state,
-      list: [...this.state.list, {code: generateCode(), title: 'Новая запись'}]
-    })
+      cart: include ? this.state.cart : [...this.state.cart, product]
+    });
   };
 
   /**
-   * Удаление записи по коду
-   * @param code
+   * Удаление элемента из корзины
+   * @param product{Object} // Элемент, удаляемый из корзины
    */
-  deleteItem(code) {
+  deleteItem(product) {
     this.setState({
       ...this.state,
-      // Новый список, в котором не будет удаляемой записи
-      list: this.state.list.filter(item => item.code !== code)
-    })
+      // Новая корзина, в котором не будет удаляемого элемента
+      cart: this.state.cart.filter(item => item.code !== product.code)
+    });
   };
-
-  /**
-   * Выделение записи по коду
-   * @param code
-   */
-  selectItem(code) {
-    this.setState({
-      ...this.state,
-      list: this.state.list.map(item => {
-        if (item.code === code) {
-          // Смена выделения и подсчёт
-          return {
-            ...item,
-            selected: !item.selected,
-            count: item.selected ? item.count : item.count + 1 || 1,
-          };
-        }
-        // Сброс выделения если выделена
-        return item.selected ? {...item, selected: false} : item;
-      })
-    })
-  }
-}
+};
 
 export default Store;

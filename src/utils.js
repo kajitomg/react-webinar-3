@@ -17,6 +17,15 @@ export function plural(value, variants = {}, locale = 'ru-RU') {
 }
 
 /**
+ * Рублевый локализатор чисел
+ * @param number{Number} // Число, которое должно быть приведено к рублевой локали
+ * @returns {String}
+ */
+export function rubCurrency(number) {
+  return number.toLocaleString('ru-RU',{style:'currency',currency:'RUB',minimumFractionDigits: 0})
+}
+
+/**
  * Генератор чисел с шагом 1
  * Вариант с замыканием на начальное значение в самовызываемой функции.
  * @returns {Number}
@@ -48,4 +57,17 @@ export const generateCode1 = (function (start = 0) {
  */
 export function generateCode2() {
   return generateCode2.value ? ++generateCode2.value : generateCode2.value = 1;
+}
+
+/**
+ * Подсчет стоимости товаров
+ * @param products{Object[]} // Массив продуктов, сумму цен которых подсчитываем
+ * @returns {Number}
+ */
+export function getProductsPrice(products) {
+  let price = 0
+  products.map((product) => {
+    price = product.quantity ? price + product.price * product.quantity : price + product.price
+  })
+  return price
 }

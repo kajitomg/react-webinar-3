@@ -1,21 +1,42 @@
-import React from "react";
+import React, {useContext} from "react";
 import PropTypes from 'prop-types';
 import './style.css';
+import {getProductsPrice, plural, rubCurrency} from "../../utils";
+import {StoreContext} from "../../context";
+import {Text} from "../../ui/text";
 
-function Controls({onAdd}){
+function Controls(props){
+  const {cart} = useContext(StoreContext);
+
+  const productPlural = (number) => {
+    return plural(number, {one: 'товар', few: 'товара', many: 'товаров'})
+  }
+
+  const callbacks = {
+    onOpenModal: () => {
+      props.onOpen();
+    }
+  }
+
   return (
     <div className='Controls'>
-      <button onClick={() => onAdd()}>Добавить</button>
+      <div>
+        <Text weight='regular' size='s' title={'В корзине:'}/>
+        <Text weight='bold' size='m' title={
+          cart.length > 0
+            ?
+            `${cart.length} ${productPlural(cart.length)} / ${rubCurrency(getProductsPrice(cart))}`
+            :
+            'пусто'
+        } className='Controls-price'/>
+      </div>
+      <button onClick={callbacks.onOpenModal}>Перейти</button>
     </div>
   )
 }
 
 Controls.propTypes = {
-  onAdd: PropTypes.func
+  onOpen:PropTypes.func
 };
-
-Controls.defaultProps = {
-  onAdd: () => {}
-}
 
 export default React.memo(Controls);

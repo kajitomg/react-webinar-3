@@ -1,0 +1,43 @@
+.Popup{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
+.Popup-overlay{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #000000B3;
+}
+.Popup-content{
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  max-width: 960px;
+  min-height: 407px;
+  max-height: 80%;
+  border-radius: 10px;
+  background: #ffffff;
+
+}
+.Popup-button{
+  margin: 20px;
+}
+.Popup-children{;
+  overflow: auto;
+  flex: 1 1 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.Popup-children_flexstart{
+  justify-content: flex-start;
+}
+

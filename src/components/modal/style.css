@@ -1,0 +1,11 @@
+.Popup-total{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 20px 10px;
+  margin: 0 96.61px 0 0;
+}
+.Popup-total span:last-child{
+  display: inline-block;
+  margin: 0 5px 0 40px;
+}
