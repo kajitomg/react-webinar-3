@@ -1,4 +1,5 @@
-import {generateCode} from "./utils";
+import {generateCode, getProductsPrice} from "./utils";
+import {cartInfo} from "./data";
 
 /**
  * Хранилище состояния приложения
@@ -46,19 +47,30 @@ class Store {
    */
   addItem(product) {
     let include = false;  // Boolean флаг для определения добавляется уникальный товар, или уже выбранный
-    this.state.cart.map((item) => {
+    let products = Object.assign(this.state.cart.products);
+
+    products.map((item) => {
       if(product.code === item.code){
-        item.quantity++; //Изменяем значение в элементе исходного массива this.state.cart //fix*Переписать не нарушая принцип иммутабельности
+        item.quantity++;
         include = true;
       }
-      return item
+      return item;
     });
     if(!include){
-      product.quantity = 1
+      product.quantity = 1;
+      products = [...products, product];
     }
+
     this.setState({
       ...this.state,
-      cart: include ? this.state.cart : [...this.state.cart, product]
+      cart: {
+        ...this.state.cart,
+        products:products,
+        info:{
+          total:getProductsPrice(products),
+          quantity:products.length
+        }
+      },
     });
   };
 
@@ -67,10 +79,18 @@ class Store {
    * @param product{Object} // Элемент, удаляемый из корзины
    */
   deleteItem(product) {
+    const products = Object.assign(this.state.cart.products).filter(item => item.code !== product.code);
     this.setState({
       ...this.state,
-      // Новая корзина, в котором не будет удаляемого элемента
-      cart: this.state.cart.filter(item => item.code !== product.code)
+      // Новый массив элементов в корзине, в котором не будет удаляемого элемента
+      cart: {
+        ...this.state.cart,
+        products:products,
+        info:{
+          total:getProductsPrice(products),
+          quantity:products.length
+        }
+      }
     });
   };
 };

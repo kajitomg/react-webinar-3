@@ -4,7 +4,8 @@ import Head from "./components/head";
 import PageLayout from "./components/page-layout";
 import Modal from "./components/modal";
 import {StoreContext} from "./context";
-import ProductList from "./components/productList";
+import List, {listTypes} from "./components/list";
+import ItemProduct from "./components/item-product";
 
 /**
  * Приложение
@@ -32,9 +33,7 @@ function App({ store }) {
       <PageLayout>
         <Head title='Магазин' />
         <Controls onOpen={() => setIsModalOpened(true)}/>
-        <ProductList
-          onAdd={callbacks.onAddItem}
-        />
+        <List items={products} type={listTypes.product} onClick={callbacks.onAddItem}/>
         <Modal
           isOpened={isModalOpened}
           onClose={() => setIsModalOpened(!isModalOpened)}

@@ -2,11 +2,14 @@ import React from 'react';
 import {createRoot} from 'react-dom/client';
 import App from './app.js';
 import Store from './store.js';
-import {cart, products} from "./data";
+import {cartInfo, cartProducts, products} from "./data";
 
 const store = new Store({
   products:products,
-  cart:cart
+  cart:{
+    products:cartProducts,
+    info:cartInfo
+  }
 });
 
 const root = createRoot(document.getElementById('root'));

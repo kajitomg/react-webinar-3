@@ -1,9 +1,8 @@
 import React, {useContext} from "react";
 import PropTypes from 'prop-types';
-import './style.css';
 import {getProductsPrice, plural, rubCurrency} from "../../utils";
 import {StoreContext} from "../../context";
-import {Text} from "../../ui/text";
+import './style.css';
 
 function Controls(props){
   const {cart} = useContext(StoreContext);
@@ -21,14 +20,16 @@ function Controls(props){
   return (
     <div className='Controls'>
       <div>
-        <Text weight='regular' size='s' title={'В корзине:'}/>
-        <Text weight='bold' size='m' title={
-          cart.length > 0
-            ?
-            `${cart.length} ${productPlural(cart.length)} / ${rubCurrency(getProductsPrice(cart))}`
-            :
-            'пусто'
-        } className='Controls-price'/>
+        <span title={'В корзине:'}>В корзине:</span>
+        <span className='Controls-price'>
+          {
+            cart.info.quantity > 0
+              ?
+              `${cart.info.quantity} ${productPlural(cart.info.quantity)} / ${rubCurrency(getProductsPrice(cart.products))}`
+              :
+              'пусто'
+          }
+        </span>
       </div>
       <button onClick={callbacks.onOpenModal}>Перейти</button>
     </div>
@@ -38,5 +39,8 @@ function Controls(props){
 Controls.propTypes = {
   onOpen:PropTypes.func
 };
+Controls.defaultProps = {
+  onOpen:() => {}
+}
 
 export default React.memo(Controls);

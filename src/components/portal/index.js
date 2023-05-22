@@ -1,5 +1,6 @@
 import React, {  useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
+import PropTypes from "prop-types";
 
 
 function Portal(props) {
@@ -15,5 +16,10 @@ function Portal(props) {
 
   return ReactDOM.createPortal(props.children, container);
 }
+
+Portal.propTypes = {
+  children: PropTypes.node
+}
+
 
 export default React.memo(Portal);

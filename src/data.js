@@ -1,4 +1,4 @@
-import {generateCode} from "./utils";
+import {generateCode, getProductsPrice} from "./utils";
 
 
 /**
@@ -19,14 +19,25 @@ export const products = [
 ];
 
 /**
- * Корзина продуктов
+ * Продукты в корзине
  * @type {Object[]} //Массив продуктов
  * @property {Number} code // Код элемента
  * @property {String} title // Название элемента
  * @property {Number} price // Цена элемента
  * @property {Number} quantity // Количество данного товара в корзине
  */
-export const cart =  [
+export const cartProducts =  [
   {code: 1, title: 'Название товара', price: 100.0,quantity:1},
   {code: 2, title: 'Книга про React', price: 770,quantity:2}
 ];
+
+/**
+ * Информация о корзине
+ * @type {Object} // Объект с информацией относящейся к корзине
+ * @property {Number} total // Общая стоимость товара
+ * @property {String} quantity // Количество уникального товара
+ */
+export const cartInfo = {
+  total:getProductsPrice(cartProducts),
+  quantity:cartProducts.length,
+}

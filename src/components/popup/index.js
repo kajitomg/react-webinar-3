@@ -1,10 +1,10 @@
 import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
 import Portal from "../portal";
-import './style.css'
 import Head from "../head";
 import {StoreContext} from "../../context";
 import {cn as bem} from "@bem-react/classname"
+import './style.css'
 
 const cn = bem('Popup')
 
@@ -35,7 +35,7 @@ function Popup(props){
               onClick={callbacks.onClosePopup}
             >Закрыть</button>
           </Head>
-          <div className={cn('children',{flexstart:cart.length >= 10})}>
+          <div className={cn('children',{flexstart:cart.info.quantity >= 4})}>
             {props.children}
           </div>
         </div>
@@ -45,9 +45,14 @@ function Popup(props){
 };
 
 Popup.propTypes = {
-  title:PropTypes.node,
+  title:PropTypes.node.isRequired,
   isOpened:PropTypes.bool,
+  children: PropTypes.node,
   onClose:PropTypes.func
 };
+Popup.defaultProps = {
+  isOpened:false,
+  onClose:() => {}
+}
 
 export default React.memo(Popup);

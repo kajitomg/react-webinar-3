@@ -1,11 +1,10 @@
 import React, {useContext} from "react";
 import PropTypes from 'prop-types';
-import './style.css';
 import Popup from "../popup";
-import {getProductsPrice, rubCurrency} from "../../utils";
-import CartList from "../cartList";
+import {rubCurrency} from "../../utils";
 import {StoreContext} from "../../context";
-import {Text} from "../../ui/text";
+import List, {listTypes} from "../list";
+import './style.css';
 
 function Modal(props){
   const {cart} = useContext(StoreContext);
@@ -21,10 +20,10 @@ function Modal(props){
 
   return (
     <Popup title={'Корзина'} isOpened={props.isOpened} onClose={callbacks.onCloseModal}>
-      <CartList onDelete={callbacks.onDeleteItem}/>
+      <List items={cart.products} type={listTypes.cart} onClick={callbacks.onDeleteItem}/>
       <div className='Popup-total'>
-        <Text weight='bold' size='m' title='Итого'/>
-        <Text weight='bold' size='m' title={rubCurrency(getProductsPrice(cart))}/>
+        <span>Итого</span>
+        <span>{rubCurrency(cart.info.total)}</span>
       </div>
     </Popup>
   )
