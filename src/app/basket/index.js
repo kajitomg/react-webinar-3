@@ -3,26 +3,25 @@ import ItemBasket from "../../components/item-basket";
 import List from "../../components/list";
 import ModalLayout from "../../components/modal-layout";
 import BasketTotal from "../../components/basket-total";
-import useStore from "../../store/use-store";
-import useSelector from "../../store/use-selector";
+import useSelector from "../../store/hooks/use-selector";
 import {capitalizeFirstLetter} from "../../utils";
+import useLanguage from "../../store/hooks/use-language";
+import useModal from "../../store/hooks/use-modal";
+import useStore from "../../store/hooks/use-store";
 
 function Basket() {
-
-  const store = useStore();
+  const store = useStore()
+  const [words] = useLanguage()
+  const [openModal,closeModal] = useModal('basket')
 
   const select = useSelector(state => ({
     list: state.basket.list,
-    amount: state.basket.amount,
-    sum: state.basket.sum,
-    language:state.language.words.words
+    sum: state.basket.sum
   }));
 
   const callbacks = {
     // Удаление из корзины
     removeFromBasket: useCallback(_id => store.actions.basket.removeFromBasket(_id), [store]),
-    // Закрытие любой модалки
-    closeModal: useCallback(() => store.actions.modals.closeModal(), [store]),
   }
 
   const renders = {
@@ -32,7 +31,7 @@ function Basket() {
   };
 
   return (
-    <ModalLayout title={capitalizeFirstLetter(select.language.basket.title)} onClose={callbacks.closeModal}>
+    <ModalLayout title={capitalizeFirstLetter(words.basket.title)} onClose={closeModal}>
       <List list={select.list} renderItem={renders.itemBasket}/>
       <BasketTotal sum={select.sum}/>
     </ModalLayout>
@@ -40,3 +39,4 @@ function Basket() {
 }
 
 export default memo(Basket);
+

@@ -1,35 +1,26 @@
 import React, {memo, useCallback} from 'react';
 import {cn as bem} from '@bem-react/classname'
-import useStore from "../../store/use-store";
-import useSelector from "../../store/use-selector";
 import {capitalizeFirstLetter} from "../../utils";
 import {languageTypes} from "../../store/language";
+import useLanguage from "../../store/hooks/use-language";
 import './style.css'
 
 function LanguageControls (){
-
   const cn = bem('LanguageControls')
 
-  const store = useStore();
-
-  const select = useSelector(state => ({
-    language:state.language.words.words
-  }));
+  const [words,language,setLanguage] = useLanguage()
 
   const callbacks = {
     onSelect: useCallback((e) => {
-      console.log(e);
-      store.actions.language.setLanguage(e.target.value);
-  }, [store]),
+      setLanguage(e.target.value);
+  }, []),
   }
 
   return (
-    <>
     <select className={cn()} onChange={callbacks.onSelect}>
-      <option value={languageTypes.russian}>{capitalizeFirstLetter(select.language.language.russian)}</option>
-      <option value={languageTypes.english}>{capitalizeFirstLetter(select.language.language.english)}</option>
+      <option value={languageTypes.russian}>{capitalizeFirstLetter(words.language.russian)}</option>
+      <option value={languageTypes.english}>{capitalizeFirstLetter(words.language.english)}</option>
     </select>
-    </>
   );
 }
 

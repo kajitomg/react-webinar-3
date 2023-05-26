@@ -4,20 +4,16 @@ import {capitalizeFirstLetter, numberFormat, plural} from "../../utils";
 import {cn as bem} from "@bem-react/classname";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
-import useStore from "../../store/use-store";
-import './style.css';
-import useSelector from "../../store/use-selector";
+import useStore from "../../store/hooks/use-store";
 import {languageTypes} from "../../store/language";
+import useLanguage from "../../store/hooks/use-language";
+import './style.css';
 
 function ItemBasket(props) {
-
   const cn = bem('ItemBasket');
-  const store = useStore();
 
-  const select = useSelector(state => ({
-    languageWords:state.language.words.words,
-    language:state.language.language,
-  }));
+  const store = useStore();
+  const [words,language] = useLanguage()
 
   const callbacks = {
     onRemove: (e) => props.onRemove(props.item._id),
@@ -39,11 +35,11 @@ function ItemBasket(props) {
         <div className={cn('cell')}>{numberFormat(props.item.price)} ₽</div>
         <div className={cn('cell')}>{numberFormat(props.item.amount || 0)}
           {
-            select.language === languageTypes.russian && ` ${select.languageWords.basket.unit}` ||
-            select.language === languageTypes.english && ` ${plural(props.item.amount,select.languageWords.basket.unit,'en-US')}`
+            language === languageTypes.russian && ` ${words.basket.unit}` ||
+            language === languageTypes.english && ` ${plural(props.item.amount,words.basket.unit,'en-US')}`
           }
         </div>
-        <div className={cn('cell')}><button onClick={callbacks.onRemove}>{capitalizeFirstLetter(select.languageWords.buttons.delete)}</button></div>
+        <div className={cn('cell')}><button onClick={callbacks.onRemove}>{capitalizeFirstLetter(words.buttons.delete)}</button></div>
       </div>
     </div>
   )

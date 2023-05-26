@@ -2,19 +2,16 @@ import {memo} from 'react';
 import BasketTool from "../../components/basket-tool";
 import LinkMain from "../../components/link-main";
 import PropTypes from "prop-types";
-import './style.css'
-import useSelector from "../../store/use-selector";
 import {capitalizeFirstLetter} from "../../utils";
+import useLanguage from "../../store/hooks/use-language";
+import './style.css'
 
 function PageMenu(props) {
-
-  const select = useSelector(state => ({
-    language:state.language.words.words
-  }));
+  const [words] = useLanguage()
 
   return (
     <div className={'PageMenu'}>
-      <LinkMain to={'/main'} title={capitalizeFirstLetter(select.language.page.mainButton)}/>
+      <LinkMain to={'/main'} title={capitalizeFirstLetter(words.page.mainButton)}/>
       <BasketTool
         onOpen={props.openModalBasket}
         amount={props.amount}

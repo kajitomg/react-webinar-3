@@ -1,29 +1,23 @@
-import {memo, useCallback} from 'react';
+import {memo} from 'react';
 import PageLayout from "../../components/page-layout";
 import Head from "../../components/head";
 import PropTypes from "prop-types";
 import PageMenu from "../page-menu";
-import useStore from "../../store/use-store";
-import useSelector from "../../store/use-selector";
+import useSelector from "../../store/hooks/use-selector";
+import useModal from "../../store/hooks/use-modal";
 
 function Page(props) {
-
-  const store = useStore();
+  const [openModal] = useModal('basket')
 
   const select = useSelector(state => ({
     amount: state.basket.amount,
     sum: state.basket.sum,
   }));
 
-  const callbacks = {
-    // Открытие модального окна корзины
-    openModalBasket: useCallback(() => store.actions.modals.openModal('basket'), [store]),
-  }
-
   return (
     <PageLayout>
       <Head title={props.title}/>
-      <PageMenu sum={select.sum} amount={select.amount} openModalBasket={callbacks.openModalBasket}/>
+      <PageMenu sum={select.sum} amount={select.amount} openModalBasket={openModal}/>
       {props.children}
     </PageLayout>
 

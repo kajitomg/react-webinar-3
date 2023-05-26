@@ -5,7 +5,6 @@ import {cn as bem} from '@bem-react/classname';
 import './style.css'
 
 function Pagination (props){
-
   const cn = bem('Pagination')
 
   return (

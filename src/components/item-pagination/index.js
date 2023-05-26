@@ -6,6 +6,7 @@ import './style.css'
 
 function ItemPagination (props){
   const cn = bem('ItemPagination')
+
   const callbacks = {
     onClick: () => {
       props.onClick(props.title)

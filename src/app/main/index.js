@@ -1,38 +1,26 @@
 import {memo, useCallback, useEffect} from 'react';
-import Item from "../../components/item";
 import List from "../../components/list";
-import useStore from "../../store/use-store";
-import useSelector from "../../store/use-selector";
+import useSelector from "../../store/hooks/use-selector";
 import Pagination from "../../components/pagination";
 import Page from "../../components/page";
 import {capitalizeFirstLetter} from "../../utils";
-import {languageTypes} from "../../store/language";
+import useLanguage from "../../store/hooks/use-language";
+import usePagination from "../../store/hooks/use-pagination";
+import Item from "../../components/item";
+import useStore from "../../store/hooks/use-store";
 
 function Main() {
-
-  const store = useStore();
+  const store = useStore()
+  const [pagination,callPagination] = usePagination()
+  const [words] = useLanguage()
 
   const select = useSelector(state => ({
-    list: state.catalog.list,
-    page:state.pagination.page,
-    pages:state.pagination.pages,
-    limit:state.pagination.limit,
-    maxPage:state.pagination.maxPage,
-    language:state.language.words.words
+    list: state.catalog.list
   }));
 
   const callbacks = {
     // Добавление в корзину
-    addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store]),
-    // Подгрузка нужной страницы
-    loadPage: useCallback((page) => {
-          store.actions.catalog.loadItems(page,select.limit);
-          return store.actions.pagination.setPage(page)
-      }, [store]),
-    // Подгрузка числа страниц
-    setMaxPage: useCallback(() => {
-      return store.actions.pagination.setMaxPage();
-    }, [store]),
+    addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store])
   }
 
   const renders = {
@@ -43,17 +31,17 @@ function Main() {
 
   useEffect(() => {
     (async () => {
-      await callbacks.setMaxPage()
+      await callPagination.setMaxPage()
       if(select.list.length === 0){
-        await callbacks.loadPage(1)
+        await callPagination.loadPage(1)
       }
     })()
   }, []);
 
   return (
-    <Page title={capitalizeFirstLetter(select.language.page.mainTitle)}>
+    <Page title={capitalizeFirstLetter(words.page.mainTitle)}>
       <List list={select.list} renderItem={renders.item}/>
-      <Pagination page={select.page} maxPage={select.maxPage} pages={select.pages} onClick={callbacks.loadPage}/>
+      <Pagination page={pagination.page} maxPage={pagination.maxPage} pages={pagination.pages} onClick={callPagination.loadPage}/>
     </Page>
   );
 }

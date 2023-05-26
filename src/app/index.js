@@ -1,6 +1,6 @@
 import Main from "./main";
 import Basket from "./basket";
-import useSelector from "../store/use-selector";
+import useSelector from "../store/hooks/use-selector";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Product from "./product";
 
