@@ -33,3 +33,17 @@ export function codeGenerator(start = 0) {
 export function numberFormat(value, locale = 'ru-RU', options = {}) {
   return new Intl.NumberFormat(locale, options).format(value);
 }
+
+/**
+ * Форматирование разрядов числа
+ * @param first {boolean}
+ * @param second {string}
+ */
+export function secondTrue(first,second) {
+  if(first){
+    return second
+  }
+}
+export function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}

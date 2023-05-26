@@ -1,0 +1,14 @@
+.Pagination {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px;
+}
+.Pagination-dots{
+  cursor: default;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  color:#cccccc;
+  width: 20px;
+  height: 20px;
+}

@@ -1,31 +1,38 @@
 import {memo, useCallback, useEffect} from 'react';
 import Item from "../../components/item";
-import PageLayout from "../../components/page-layout";
-import Head from "../../components/head";
-import BasketTool from "../../components/basket-tool";
 import List from "../../components/list";
 import useStore from "../../store/use-store";
 import useSelector from "../../store/use-selector";
+import Pagination from "../../components/pagination";
+import Page from "../../components/page";
+import {capitalizeFirstLetter} from "../../utils";
+import {languageTypes} from "../../store/language";
 
 function Main() {
 
   const store = useStore();
 
-  useEffect(() => {
-    store.actions.catalog.load();
-  }, []);
-
   const select = useSelector(state => ({
     list: state.catalog.list,
-    amount: state.basket.amount,
-    sum: state.basket.sum
+    page:state.pagination.page,
+    pages:state.pagination.pages,
+    limit:state.pagination.limit,
+    maxPage:state.pagination.maxPage,
+    language:state.language.words.words
   }));
 
   const callbacks = {
     // Добавление в корзину
     addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store]),
-    // Открытие модалки корзины
-    openModalBasket: useCallback(() => store.actions.modals.open('basket'), [store]),
+    // Подгрузка нужной страницы
+    loadPage: useCallback((page) => {
+          store.actions.catalog.loadItems(page,select.limit);
+          return store.actions.pagination.setPage(page)
+      }, [store]),
+    // Подгрузка числа страниц
+    setMaxPage: useCallback(() => {
+      return store.actions.pagination.setMaxPage();
+    }, [store]),
   }
 
   const renders = {
@@ -34,14 +41,20 @@ function Main() {
     }, [callbacks.addToBasket]),
   };
 
-  return (
-    <PageLayout>
-      <Head title='Магазин'/>
-      <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount}
-                  sum={select.sum}/>
-      <List list={select.list} renderItem={renders.item}/>
-    </PageLayout>
+  useEffect(() => {
+    (async () => {
+      await callbacks.setMaxPage()
+      if(select.list.length === 0){
+        await callbacks.loadPage(1)
+      }
+    })()
+  }, []);
 
+  return (
+    <Page title={capitalizeFirstLetter(select.language.page.mainTitle)}>
+      <List list={select.list} renderItem={renders.item}/>
+      <Pagination page={select.page} maxPage={select.maxPage} pages={select.pages} onClick={callbacks.loadPage}/>
+    </Page>
   );
 }
 

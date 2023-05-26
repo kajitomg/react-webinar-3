@@ -1,0 +1,8 @@
+.LinkMain {
+  padding: 20px;
+}
+.LinkMain a{
+  font-size: 18px;
+  color: #0087e9;
+  text-decoration: underline;
+}

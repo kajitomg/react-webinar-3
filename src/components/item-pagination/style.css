@@ -1,0 +1,21 @@
+.ItemPagination {
+  min-width: 13.6px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3.2px;
+}
+.ItemPagination_active{
+  background: #0087e9;
+}
+.ItemPagination-title_active{
+  color: #ffffff;
+}
+.ItemPagination:hover{
+  cursor: pointer;
+  background: #e1e1e1;
+}
+.ItemPagination_active:hover{
+  background: #0087e9;
+}

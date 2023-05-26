@@ -7,12 +7,18 @@ class Modals extends StoreModule {
       name: null
     }
   }
-
-  open(name){
+  /**
+   * Открытие модального окна
+   * @param name{String} название открываемого модального окна
+   */
+  openModal(name){
     this.setState({name}, `Открытие модалки ${name}`);
   }
 
-  close(){
+  /**
+   * Закрытие модального окна
+   */
+  closeModal(){
     this.setState({name: null}, `Закрытие модалки`);
   }
 }
