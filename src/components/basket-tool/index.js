@@ -17,7 +17,7 @@ function BasketTool({sum, amount, onOpen}) {
       <span className={cn('total')}>
         {amount
           ? `${amount} ${plural(amount, words.page.product,language === languageTypes.english && 'en-US')} / ${numberFormat(sum)} ₽`
-          : `пусто`
+          : words.page.empty
         }
       </span>
       <button onClick={onOpen}>{capitalizeFirstLetter(words.buttons.goto)}</button>
