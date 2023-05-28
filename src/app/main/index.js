@@ -2,25 +2,33 @@ import {memo, useCallback, useEffect} from 'react';
 import List from "../../components/list";
 import useSelector from "../../store/hooks/use-selector";
 import Pagination from "../../components/pagination";
-import Page from "../../components/page";
+import Page from "../../containers/page";
 import {capitalizeFirstLetter} from "../../utils";
 import useLanguage from "../../store/hooks/use-language";
 import usePagination from "../../store/hooks/use-pagination";
 import Item from "../../components/item";
-import useStore from "../../store/hooks/use-store";
+import useBasket from "../../store/hooks/use-basket";
 
 function Main() {
-  const store = useStore()
   const [pagination,callPagination] = usePagination()
   const [words] = useLanguage()
+  const [basket, callBasket] = useBasket()
 
   const select = useSelector(state => ({
-    list: state.catalog.list
+    list: state.catalog.list,
+    page:state.catalog.pagination.page,
+    pages:state.catalog.pagination.pages,
+    maxPage:state.catalog.pagination.maxPage
   }));
 
   const callbacks = {
     // Добавление в корзину
-    addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store])
+    addToBasket: callBasket.addToBasket,
+    // Подгрузка нужной страницы
+    loadPage: callPagination.loadPage,
+    // Подгрузка нужной страницы
+    setMaxPage: callPagination.setMaxPage,
+
   }
 
   const renders = {
@@ -31,9 +39,9 @@ function Main() {
 
   useEffect(() => {
     (async () => {
-      await callPagination.setMaxPage()
+      await callbacks.setMaxPage()
       if(select.list.length === 0){
-        await callPagination.loadPage(1)
+        await callbacks.loadPage(1)
       }
     })()
   }, []);
@@ -41,7 +49,7 @@ function Main() {
   return (
     <Page title={capitalizeFirstLetter(words.page.mainTitle)}>
       <List list={select.list} renderItem={renders.item}/>
-      <Pagination page={pagination.page} maxPage={pagination.maxPage} pages={pagination.pages} onClick={callPagination.loadPage}/>
+      <Pagination page={select.page} maxPage={select.maxPage} pages={select.pages} onClick={callbacks.loadPage}/>
     </Page>
   );
 }

@@ -6,19 +6,20 @@ import {Link} from "react-router-dom";
 import useStore from "../../store/hooks/use-store";
 import useLanguage from "../../store/hooks/use-language";
 import './style.css';
+import useProduct from "../../store/hooks/use-product";
+import useSelector from "../../store/hooks/use-selector";
 
 function Item(props){
   const cn = bem('Item');
 
-  const store = useStore();
   const [words] = useLanguage()
+  const [product, callProduct] = useProduct()
 
   const callbacks = {
     onAdd: (e) => props.onAdd(props.item._id),
-    //Загрузка уже имеющейся информации для отображения
-    onGoItem: () => store.actions.product.setItem(props.item)
+    // Действие при нажатии на товар
+    onGoItem: () => callProduct.setItem(props.item)
   }
-
   return (
     <div className={cn()}>
       <div className={cn('title')}>

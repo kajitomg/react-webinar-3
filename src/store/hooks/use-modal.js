@@ -11,5 +11,5 @@ export default function useModal(name){
     closeModal: useCallback(() => store.actions.modals.closeModal(name), [store]),
   }
 
-  return [callbacks.openModal,callbacks.closeModal]
+  return {openModal:callbacks.openModal,closeModal:callbacks.closeModal}
 }

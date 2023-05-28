@@ -1,13 +1,16 @@
 import {memo, useCallback, useEffect} from "react";
 import useStore from "../../store/hooks/use-store";
 import useSelector from "../../store/hooks/use-selector";
-import Page from "../../components/page";
+import Page from "../../containers/page";
 import {useLocation} from "react-router-dom";
 import ProductInfo from "../../components/product-info";
+import useBasket from "../../store/hooks/use-basket";
+import useProduct from "../../store/hooks/use-product";
 
 function Product() {
-  const store = useStore();
   const location = useLocation()
+  const [basket, callBasket] = useBasket()
+  const [product, callProduct] = useProduct()
 
   const select = useSelector(state => ({
     item:state.product.data
@@ -15,12 +18,15 @@ function Product() {
 
   const callbacks = {
     // Добавление в корзину
-    addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store]),
+    addToBasket: callBasket.addToBasket,
+    // Загрузка продукта по идентификатору
+    loadItem: callProduct.loadItem,
+    // Очистка стейта от продукта
+    clearItem: callProduct.clearItem,
   }
-
   useEffect(() => {
-    store.actions.product.loadItem(location.pathname.split('/')[location.pathname.split('/').length - 1])
-    return () => store.actions.product.clearItem()
+    callbacks.loadItem(location.pathname.split('/')[location.pathname.split('/').length - 1])
+    return () => callbacks.clearItem()
   },[location.pathname])
 
   return (

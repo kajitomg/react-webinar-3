@@ -8,21 +8,24 @@ import useStore from "../../store/hooks/use-store";
 import {languageTypes} from "../../store/language";
 import useLanguage from "../../store/hooks/use-language";
 import './style.css';
+import useProduct from "../../store/hooks/use-product";
+import useModal from "../../store/hooks/use-modal";
 
 function ItemBasket(props) {
   const cn = bem('ItemBasket');
 
-  const store = useStore();
   const [words,language] = useLanguage()
+  const [product, callProduct] = useProduct()
+  const {closeModal} = useModal()
 
   const callbacks = {
     onRemove: (e) => props.onRemove(props.item._id),
     //Загрузка уже имеющейся информации для отображения
     onGoItem: () => {
       if(location.pathname.split('/')[location.pathname.split('/').length - 1] !== props.item._id){
-        store.actions.product.setItem(props.item);
+        callProduct.setItem(props.item)
       }
-      store.actions.modals.closeModal()
+      closeModal()
     }
   };
 
