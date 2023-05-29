@@ -4,9 +4,12 @@ import {cn as bem} from '@bem-react/classname';
 import {capitalizeFirstLetter, numberFormat} from "../../utils";
 import {Link} from "react-router-dom";
 import './style.css';
+import useLanguage from "../../store/hooks/use-language";
 
 function Item(props){
   const cn = bem('Item');
+
+  const [words] = useLanguage()
 
   const callbacks = {
     onAdd: () => props.onAdd(props.item._id),
@@ -20,7 +23,7 @@ function Item(props){
       </div>
       <div className={cn('actions')}>
         <div className={cn('price')}>{numberFormat(props.item.price)} ₽</div>
-        <button onClick={callbacks.onAdd}>{capitalizeFirstLetter(props.words.buttons.add)}</button>
+        <button onClick={callbacks.onAdd}>{capitalizeFirstLetter(words.buttons.add)}</button>
       </div>
     </div>
   );
@@ -34,7 +37,6 @@ Item.propTypes = {
   }).isRequired,
   onAdd: PropTypes.func,
   onSetItem: PropTypes.func,
-  words:PropTypes.object,
   toItem:PropTypes.string
 };
 

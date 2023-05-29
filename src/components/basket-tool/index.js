@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {cn as bem} from '@bem-react/classname';
 import {capitalizeFirstLetter, numberFormat, plural} from "../../utils";
 import {languageTypes} from "../../store/language";
-import useLanguage from "../../store/hooks/use-language";
 import './style.css';
 
 function BasketTool(props) {
