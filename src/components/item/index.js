@@ -9,8 +9,6 @@ import useLanguage from "../../store/hooks/use-language";
 function Item(props){
   const cn = bem('Item');
 
-  const [words] = useLanguage()
-
   const callbacks = {
     onAdd: () => props.onAdd(props.item._id),
     // Действие при нажатии на товар
@@ -23,7 +21,7 @@ function Item(props){
       </div>
       <div className={cn('actions')}>
         <div className={cn('price')}>{numberFormat(props.item.price)} ₽</div>
-        <button onClick={callbacks.onAdd}>{capitalizeFirstLetter(words.buttons.add)}</button>
+        <button onClick={callbacks.onAdd}>{capitalizeFirstLetter(props.words.buttons.add)}</button>
       </div>
     </div>
   );
@@ -37,7 +35,8 @@ Item.propTypes = {
   }).isRequired,
   onAdd: PropTypes.func,
   onSetItem: PropTypes.func,
-  toItem:PropTypes.string
+  toItem:PropTypes.string,
+  words:PropTypes.object
 };
 
 Item.defaultProps = {

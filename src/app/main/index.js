@@ -36,7 +36,7 @@ function Main() {
   }
 
   const renders = {
-    item: useCallback((item) => {
+    item: useCallback((item,words) => {
       return <Item
         item={item}
         onAdd={callbacks.addToBasket}
@@ -58,7 +58,7 @@ function Main() {
 
   return (
     <Page title={capitalizeFirstLetter(words.page.mainTitle)}>
-      <List list={select.list} renderItem={renders.item}/>
+      <List list={select.list} renderItem={renders.item} words={words}/>
       <Pagination page={select.page} maxPage={select.maxPage} pages={select.pages} onClick={callbacks.loadPage}/>
     </Page>
   );
