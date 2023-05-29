@@ -3,31 +3,24 @@ import PropTypes from "prop-types";
 import {cn as bem} from '@bem-react/classname';
 import {capitalizeFirstLetter, numberFormat} from "../../utils";
 import {Link} from "react-router-dom";
-import useStore from "../../store/hooks/use-store";
-import useLanguage from "../../store/hooks/use-language";
 import './style.css';
-import useProduct from "../../store/hooks/use-product";
-import useSelector from "../../store/hooks/use-selector";
 
 function Item(props){
   const cn = bem('Item');
 
-  const [words] = useLanguage()
-  const [product, callProduct] = useProduct()
-
   const callbacks = {
-    onAdd: (e) => props.onAdd(props.item._id),
+    onAdd: () => props.onAdd(props.item._id),
     // Действие при нажатии на товар
-    onGoItem: () => callProduct.setItem(props.item)
+    onGoItem: () => props.onSetItem(props.item)
   }
   return (
     <div className={cn()}>
       <div className={cn('title')}>
-        <Link to={`/main/${props.item._id}`}  onClick={callbacks.onGoItem}>{props.item.title}</Link>
+        <Link to={props.toItem}  onClick={callbacks.onGoItem}>{props.item.title}</Link>
       </div>
       <div className={cn('actions')}>
         <div className={cn('price')}>{numberFormat(props.item.price)} ₽</div>
-        <button onClick={callbacks.onAdd}>{capitalizeFirstLetter(words.buttons.add)}</button>
+        <button onClick={callbacks.onAdd}>{capitalizeFirstLetter(props.words.buttons.add)}</button>
       </div>
     </div>
   );
@@ -40,6 +33,9 @@ Item.propTypes = {
     price: PropTypes.number
   }).isRequired,
   onAdd: PropTypes.func,
+  onSetItem: PropTypes.func,
+  words:PropTypes.object,
+  toItem:PropTypes.string
 };
 
 Item.defaultProps = {

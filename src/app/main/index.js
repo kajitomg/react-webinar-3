@@ -8,11 +8,13 @@ import useLanguage from "../../store/hooks/use-language";
 import usePagination from "../../store/hooks/use-pagination";
 import Item from "../../components/item";
 import useBasket from "../../store/hooks/use-basket";
+import useProduct from "../../store/hooks/use-product";
 
 function Main() {
   const [pagination,callPagination] = usePagination()
   const [words] = useLanguage()
   const [basket, callBasket] = useBasket()
+  const [product, callProduct] = useProduct()
 
   const select = useSelector(state => ({
     list: state.catalog.list,
@@ -28,12 +30,20 @@ function Main() {
     loadPage: callPagination.loadPage,
     // Подгрузка нужной страницы
     setMaxPage: callPagination.setMaxPage,
+    // Установка продукта без подгрузки с сервера
+    setItem: callProduct.setItem
 
   }
 
   const renders = {
     item: useCallback((item) => {
-      return <Item item={item} onAdd={callbacks.addToBasket}/>
+      return <Item
+        item={item}
+        onAdd={callbacks.addToBasket}
+        onSetItem={callbacks.setItem}
+        words={words}
+        toItem={`/main/${item._id}`}
+      />
     }, [callbacks.addToBasket]),
   };
 

@@ -4,45 +4,37 @@ import {capitalizeFirstLetter, numberFormat, plural} from "../../utils";
 import {cn as bem} from "@bem-react/classname";
 import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
-import useStore from "../../store/hooks/use-store";
 import {languageTypes} from "../../store/language";
-import useLanguage from "../../store/hooks/use-language";
 import './style.css';
-import useProduct from "../../store/hooks/use-product";
-import useModal from "../../store/hooks/use-modal";
 
 function ItemBasket(props) {
   const cn = bem('ItemBasket');
-
-  const [words,language] = useLanguage()
-  const [product, callProduct] = useProduct()
-  const {closeModal} = useModal()
 
   const callbacks = {
     onRemove: (e) => props.onRemove(props.item._id),
     //Загрузка уже имеющейся информации для отображения
     onGoItem: () => {
       if(location.pathname.split('/')[location.pathname.split('/').length - 1] !== props.item._id){
-        callProduct.setItem(props.item)
+        props.setItem(props.item)
       }
-      closeModal()
+      props.onClose()
     }
   };
 
   return (
     <div className={cn()}>
       <span className={cn('title')}>
-        <Link to={`/main/${props.item._id}`} onClick={callbacks.onGoItem}>{props.item.title}</Link>
+        <Link to={props.toItem} onClick={callbacks.onGoItem}>{props.item.title}</Link>
       </span>
       <div className={cn('right')}>
         <div className={cn('cell')}>{numberFormat(props.item.price)} ₽</div>
         <div className={cn('cell')}>{numberFormat(props.item.amount || 0)}
           {
-            language === languageTypes.russian && ` ${words.basket.unit}` ||
-            language === languageTypes.english && ` ${plural(props.item.amount,words.basket.unit,'en-US')}`
+            props.language === languageTypes.russian && ` ${props.words.basket.unit}` ||
+            props.language === languageTypes.english && ` ${plural(props.item.amount,props.words.basket.unit,'en-US')}`
           }
         </div>
-        <div className={cn('cell')}><button onClick={callbacks.onRemove}>{capitalizeFirstLetter(words.buttons.delete)}</button></div>
+        <div className={cn('cell')}><button onClick={callbacks.onRemove}>{capitalizeFirstLetter(props.words.buttons.delete)}</button></div>
       </div>
     </div>
   )
@@ -56,6 +48,11 @@ ItemBasket.propTypes = {
     amount: PropTypes.number
   }).isRequired,
   onRemove: propTypes.func,
+  onClose: propTypes.func,
+  onSetItem: propTypes.func,
+  words:PropTypes.object,
+  language:PropTypes.string,
+  toItem:PropTypes.string
 }
 
 ItemBasket.defaultProps = {

@@ -6,21 +6,19 @@ import {languageTypes} from "../../store/language";
 import useLanguage from "../../store/hooks/use-language";
 import './style.css';
 
-function BasketTool({sum, amount, onOpen}) {
+function BasketTool(props) {
   const cn = bem('BasketTool');
-
-  const [words,language] = useLanguage()
 
   return (
     <div className={cn()}>
-      <span className={cn('label')}>{capitalizeFirstLetter(words.page.inBasket)}:</span>
+      <span className={cn('label')}>{capitalizeFirstLetter(props.words.page.inBasket)}:</span>
       <span className={cn('total')}>
-        {amount
-          ? `${amount} ${plural(amount, words.page.product,language === languageTypes.english && 'en-US')} / ${numberFormat(sum)} ₽`
-          : words.page.empty
+        {props.amount
+          ? `${props.amount} ${plural(props.amount, props.words.page.product,props.language === languageTypes.english && 'en-US')} / ${numberFormat(props.sum)} ₽`
+          : props.words.page.empty
         }
       </span>
-      <button onClick={onOpen}>{capitalizeFirstLetter(words.buttons.goto)}</button>
+      <button onClick={props.onOpen}>{capitalizeFirstLetter(props.words.buttons.goto)}</button>
     </div>
   );
 }
