@@ -26,7 +26,7 @@ BasketTool.propTypes = {
   onOpen: PropTypes.func.isRequired,
   sum: PropTypes.number,
   amount: PropTypes.number,
-  words:PropTypes.object
+  words:PropTypes.object.isRequired
 };
 
 BasketTool.defaultProps = {

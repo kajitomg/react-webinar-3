@@ -29,4 +29,10 @@ Pagination.propTypes = {
   onClick:PropTypes.func
 };
 
+Pagination.defaultProps = {
+  page:1,
+  pages: {},
+  onClick:() => {}
+}
+
 export default memo(Pagination);

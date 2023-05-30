@@ -7,15 +7,19 @@ import ProductInfo from "../../components/product-info";
 import useBasket from "../../store/hooks/use-basket";
 import useProduct from "../../store/hooks/use-product";
 import useLanguage from "../../store/hooks/use-language";
+import useModal from "../../store/hooks/use-modal";
 
 function Product() {
   const location = useLocation()
   const [basket, callBasket] = useBasket()
   const [product, callProduct] = useProduct()
-  const [words] = useLanguage()
+  const [words,language,setLanguage] = useLanguage()
+  const {openModal} = useModal('basket')
 
   const select = useSelector(state => ({
-    item:state.product.data
+    item:state.product.data,
+    amount:state.basket.amount,
+    sum:state.basket.sum
   }));
 
   const callbacks = {
@@ -25,6 +29,10 @@ function Product() {
     loadItem: callProduct.loadItem,
     // Очистка стейта от продукта
     clearItem: callProduct.clearItem,
+    // Установка языка интерфейса
+    setLanguage: setLanguage,
+    // Открытие модального окна
+    openModal: openModal
   }
   useEffect(() => {
     callbacks.loadItem(location.pathname.split('/')[location.pathname.split('/').length - 1])
@@ -32,7 +40,15 @@ function Product() {
   },[location.pathname])
 
   return (
-    <Page title={select.item?.title}>
+    <Page
+      title={select.item?.title}
+      words={words}
+      setLanguage={callbacks.setLanguage}
+      sum={select.sum}
+      language={language}
+      amount={select.amount}
+      openModal={callbacks.openModal}
+    >
       <ProductInfo item={select.item} onAdd={callbacks.addToBasket} words={words}/>
     </Page>
   );

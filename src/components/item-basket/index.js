@@ -50,13 +50,16 @@ ItemBasket.propTypes = {
   onRemove: propTypes.func,
   onClose: propTypes.func,
   onSetItem: propTypes.func,
-  words:PropTypes.object,
+  words:PropTypes.object.isRequired,
   language:PropTypes.string,
-  toItem:PropTypes.string
+  toItem:PropTypes.string.isRequired
 }
 
 ItemBasket.defaultProps = {
   onRemove: () => {},
+  onClose: () => {},
+  onSetItem: () => {},
+  language:languageTypes.russian
 }
 
 export default memo(ItemBasket);

@@ -4,7 +4,6 @@ import {cn as bem} from '@bem-react/classname';
 import {capitalizeFirstLetter, numberFormat} from "../../utils";
 import {Link} from "react-router-dom";
 import './style.css';
-import useLanguage from "../../store/hooks/use-language";
 
 function Item(props){
   const cn = bem('Item');
@@ -14,6 +13,7 @@ function Item(props){
     // Действие при нажатии на товар
     onGoItem: () => props.onSetItem(props.item)
   }
+
   return (
     <div className={cn()}>
       <div className={cn('title')}>
@@ -35,12 +35,13 @@ Item.propTypes = {
   }).isRequired,
   onAdd: PropTypes.func,
   onSetItem: PropTypes.func,
-  toItem:PropTypes.string,
-  words:PropTypes.object
+  toItem:PropTypes.string.isRequired,
+  words:PropTypes.object.isRequired
 };
 
 Item.defaultProps = {
   onAdd: () => {},
+  onSetItem: () => {}
 }
 
 export default memo(Item);

@@ -14,7 +14,9 @@ function LinkMain(props){
 
 LinkMain.propTypes = {
   title:PropTypes.string,
-  to:PropTypes.string
+  to:PropTypes.string.isRequired
 };
-
+LinkMain.defaultProps = {
+  title:'Ссылка',
+};
 export default memo(LinkMain);

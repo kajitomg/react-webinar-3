@@ -8,6 +8,7 @@ function ProductInfo(props){
   const cn = bem('ProductInfo')
 
   const callbacks = {
+    //Добавление продукта в корзину
     onAdd: () => props.onAdd(props.item._id)
   }
 
@@ -39,6 +40,10 @@ ProductInfo.propTypes = {
     words:PropTypes.object
   }).isRequired,
   onAdd:PropTypes.func
+};
+
+ProductInfo.defaultProps = {
+  onAdd: () => {}
 };
 
 export default  memo(ProductInfo);
