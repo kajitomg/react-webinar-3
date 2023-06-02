@@ -93,13 +93,50 @@ class UserState extends StoreModule {
     return await this.getState().error
   }
   async logout(){
-    document.cookie = 'token' + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT"
+    const token = document.cookie.split('=')[1]
     this.setState({
       ...this.getState(),
       info:{},
       isLogin: false,
       error:null,
     })
+    this.setState({
+      ...this.getState(),
+      waiting: true,
+      error:null,
+    })
+    await new Promise((resolve, reject) => {
+      fetch('/api/v1/users/sign', {
+        method: 'DELETE',
+        headers: {
+          "X-Token": token,
+          "Content-Type": "application/json"
+        }
+      })
+        .then(response => {
+          return response.json();
+        })
+        .then(data => data.result ? resolve(data.result) : reject(data))
+    })
+      .then(data => {
+        // Обработка успешного запроса на сервер
+        this.setState({
+          ...this.getState(),
+          info:{},
+          isLogin: false,
+          error:null,
+          waiting: false
+        })
+      })
+      .catch(rej => {
+        // Обработка запроса на сервер с ошибкой
+        this.setState({
+          ...this.getState(),
+          error:rej.error,
+          waiting: false
+        })
+      })
+    return await this.getState().error
   }
 }
 
