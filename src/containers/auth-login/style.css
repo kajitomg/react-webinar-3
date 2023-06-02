@@ -1,0 +1,23 @@
+.Auth{
+
+}
+.Auth input{
+  margin:0 0 20px 0;
+}
+.Auth-title{
+
+}
+.Auth-form{
+  display: flex;
+  flex-direction: column;
+
+}
+.Auth-error{
+  display: block;
+  color:#FF0000;
+  margin:0 0 20px 0;
+
+}
+.Auth-button{
+
+}
