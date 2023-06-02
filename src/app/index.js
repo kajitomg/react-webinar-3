@@ -3,7 +3,7 @@ import useSelector from "../hooks/use-selector";
 import Main from "./main";
 import Basket from "./basket";
 import Article from "./article";
-import User from "./profile";
+import Profile from "./profile";
 import Auth from "./login";
 import useInit from "../hooks/use-init";
 import useStore from "../hooks/use-store";
@@ -25,12 +25,13 @@ function App() {
     store.actions.user.initLogin();
   }, [], true);
 
+
   return (
     <>
       <Routes>
-        <Route path={''} element={<Main/>}/>
+        <Route path={'/'} element={<Main/>}/>
         <Route path={'/articles/:id'} element={<Article/>}/>
-        <Route path={'/profile'} element={<User/>}/>
+        <Route path={'/profile'} element={<Profile/>}/>
         <Route path={'/login'} element={<Auth/>}/>
       </Routes>
 

@@ -9,12 +9,12 @@ function HeaderAccount(props){
   const cn = bem('HeaderAccount');
 
   return (
-        <div className={cn()}>
-          {
-            props.isLogin && <Link to={`/profile`} className={cn('name')}>{props.name}</Link>
-          }
-          <button onClick={props.isLogin ?props.onLogout:props.onLogin} className={cn('button')}>{props.isLogin ?'Выход':'Вход'}</button>
-        </div>
+    <div className={cn()}>
+      {
+        props.isLogin && <Link to={`/profile`} className={cn('name')}>{props.name}</Link>
+      }
+      <button onClick={props.isLogin ?props.onLogout:props.onLogin} className={cn('button')}>{props.isLogin ?'Выход':'Вход'}</button>
+    </div>
   )
 }
 

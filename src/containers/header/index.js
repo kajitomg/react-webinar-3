@@ -1,7 +1,7 @@
 import {memo, useCallback} from "react"
 import SideLayout from "../../components/side-layout";
 import useStore from "../../hooks/use-store";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import useSelector from "../../hooks/use-selector";
 import Spinner from "../../components/spinner";
 import HeaderAccount from "../../components/header-account";
@@ -15,6 +15,7 @@ function Header(){
     user:state.user.info,
     isLogin:state.user.isLogin
   }));
+
   const callbacks = {
     onLogout:useCallback(() => {
       store.actions.user.logout()
@@ -23,6 +24,7 @@ function Header(){
       navigate('/login')
     },[])
   }
+  
   return (
     <Spinner active={select.waiting}>
       <SideLayout side={'end'} padding='small'>

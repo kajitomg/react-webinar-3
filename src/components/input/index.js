@@ -45,14 +45,15 @@ Input.propTypes = {
   onChange: PropTypes.func,
   theme: PropTypes.string,
   delay: PropTypes.number,
-  tabIndex:PropTypes.number
+  tabIndex: PropTypes.number
 }
 
 Input.defaultProps = {
   onChange: () => {},
   type: 'text',
   theme: '',
-  tabIndex:1
+  delay: 0,
+  tabIndex: 1
 }
 
 export default memo(Input);

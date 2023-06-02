@@ -96,12 +96,6 @@ class UserState extends StoreModule {
     const token = document.cookie.split('=')[1]
     this.setState({
       ...this.getState(),
-      info:{},
-      isLogin: false,
-      error:null,
-    })
-    this.setState({
-      ...this.getState(),
       waiting: true,
       error:null,
     })

@@ -4,9 +4,8 @@ import PropTypes from "prop-types";
 import './style.css';
 
 function ProfileInfo(props) {
-
-
   const cn = bem('ProfileInfo');
+
   return (
     <div className={cn()}>
       <h2 className={cn('title')}>Профиль</h2>

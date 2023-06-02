@@ -1,4 +1,4 @@
-import {memo, useEffect} from 'react';
+import {memo} from 'react';
 import PageLayout from "../../components/page-layout";
 import Header from "../../containers/header";
 import Head from "../../components/head";
@@ -11,8 +11,6 @@ import useInit from "../../hooks/use-init";
 import ProfileInfo from "../../components/profile-info";
 
 function Profile() {
-
-  const {t} = useTranslate();
   const navigate = useNavigate()
 
   const select = useSelector(state => ({
@@ -22,10 +20,12 @@ function Profile() {
   }));
 
   useInit(() => {
-    if(!select.isLogin && !select.waiting){
+    if(!select.isLogin){
       navigate('/login')
     }
-  }, [select.isLogin,select.waiting]);
+  }, [select.isLogin]);
+
+  const {t} = useTranslate();
 
   return (
     <PageLayout>

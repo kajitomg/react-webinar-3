@@ -17,15 +17,15 @@ function Login() {
     isLogin: state.user.isLogin
   }));
 
-  const {t} = useTranslate();
-
   useInit(() => {
     if(select.isLogin){
       navigate('/')
     }
   }, [select.isLogin]);
+
+  const {t} = useTranslate();
+
   return (
-    !select.isLogin &&
       <PageLayout>
         <Header />
         <Head title={t('title')}>
