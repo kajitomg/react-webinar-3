@@ -23,12 +23,15 @@ function AuthLogin() {
 
   const callbacks = {
     onLogin:useCallback(() => {
-      if(login.length === 0 || password.length === 0) return
+      if(login.length === 0 || password.length === 0){
+        return store.actions.user.setError('Unknown login or password')
+      }
       store.actions.user.login(login,password)
         .then((res) => {
           setLogin('')
           setPassword('')
-          if (!res) {
+          if (!res.error) {
+            store.actions.profile.setProfile(res.info,res.error)
             return navigate('/');
           }
         })
@@ -45,7 +48,9 @@ function AuthLogin() {
         <AuthForm loginValue={login} onLoginChange={setLogin} passwordValue={password} onPasswordChange={setPassword}
                   loginLabel={t('login.login')} passwordLabel={t('login.password')}/>
         {select.error && <AuthError error={select.error.message}/>}
-        <button  onClick={callbacks.onLogin} tabIndex={3}>{t('login.enter')}</button>
+        <button  onClick={callbacks.onLogin} tabIndex={3} >
+          {t('login.enter')}
+        </button>
       </div>
       </SideLayout>
     </Spinner>

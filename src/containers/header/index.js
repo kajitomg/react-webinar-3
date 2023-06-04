@@ -13,13 +13,19 @@ function Header(){
 
   const select = useSelector(state => ({
     waiting: state.user.waiting,
-    user:state.user.info,
+    user:state.profile.info,
     isLogin:state.user.isLogin
   }));
 
   const callbacks = {
     onLogout:useCallback(() => {
       store.actions.user.logout()
+        .then((res) => {
+          if(!res){
+            return store.actions.profile.setProfile({},null)
+          }
+          return store.actions.profile.setProfile(store.actions.profile.getState(),res)
+        })
     },[]),
     onLogin:useCallback(() => {
       navigate('/login')

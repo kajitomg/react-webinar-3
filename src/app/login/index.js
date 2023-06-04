@@ -1,4 +1,4 @@
-import {memo} from 'react';
+import {memo, useEffect} from 'react';
 import PageLayout from "../../components/page-layout";
 import Header from "../../containers/header";
 import Head from "../../components/head";
@@ -6,23 +6,14 @@ import LocaleSelect from "../../containers/locale-select";
 import Navigation from "../../containers/navigation";
 import useTranslate from "../../hooks/use-translate";
 import AuthLogin from "../../containers/auth-login";
-import useInit from "../../hooks/use-init";
-import {useNavigate} from "react-router-dom";
-import useSelector from "../../hooks/use-selector";
+import useStore from "../../hooks/use-store";
 
 function Login() {
-  const navigate = useNavigate()
+  const store = useStore()
 
-  const select = useSelector(state => ({
-    isLogin: state.user.isLogin,
-    waiting: state.user.waiting
-  }));
-
-  useInit(() => {
-    if(select.isLogin){
-      navigate('/')
-    }
-  }, [select.isLogin]);
+  useEffect(() => {
+    return () => store.actions.user.clearError()
+  },[])
 
   const {t} = useTranslate();
 

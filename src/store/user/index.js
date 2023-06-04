@@ -7,14 +7,18 @@ class UserState extends StoreModule {
 
   initState() {
     return {
-      info:{},
       isLogin: false,
-      waiting: false,
+      waiting: true,
       error:null
     }
   }
 
+  /**
+   * Автоматическая авторизации при заходе на сайт при наличии токена
+   * @return {Promise<void>}
+   */
   async initLogin(){
+    let info = {}
     this.setState({
       ...this.getState(),
       waiting: true
@@ -35,9 +39,9 @@ class UserState extends StoreModule {
     })
       .then(data => {
         // Обработка успешного запроса на сервер
+        info = data
         this.setState({
           ...this.getState(),
-          info:data,
           isLogin: true,
           error:null,
           waiting: false
@@ -50,10 +54,15 @@ class UserState extends StoreModule {
           waiting: false
         })
       })
-    return await this.getState().error
+    return await {info,error:this.getState().error}
   }
 
+  /**
+   * Авторизация
+   * @return {Promise<void>}
+   */
   async login(login,password){
+    let info = {}
     this.setState({
       ...this.getState(),
       waiting: true,
@@ -74,9 +83,9 @@ class UserState extends StoreModule {
     })
       .then(data => {
         // Обработка успешного запроса на сервер
+        info = data.user
         this.setState({
           ...this.getState(),
-          info:data.user,
           isLogin: true,
           error:null,
           waiting: false
@@ -90,8 +99,13 @@ class UserState extends StoreModule {
           waiting: false
         })
       })
-    return await this.getState().error
+    return await {info, error:this.getState().error}
   }
+
+  /**
+   * Деавторизация
+   * @return {Promise<void>}
+   */
   async logout(){
     const token = document.cookie.split('=')[1]
     this.setState({
@@ -116,7 +130,6 @@ class UserState extends StoreModule {
         // Обработка успешного запроса на сервер
         this.setState({
           ...this.getState(),
-          info:{},
           isLogin: false,
           error:null,
           waiting: false
@@ -131,6 +144,33 @@ class UserState extends StoreModule {
         })
       })
     return await this.getState().error
+  }
+
+  /**
+   * Очистка ошибки
+   * @return {Object}
+   */
+  clearError(){
+    this.setState({
+      ...this.getState(),
+      error:null,
+    })
+
+    return this.getState().error
+  }
+
+  /**
+   * Установка ошибки
+   * @param error {string} Тело ошибки - текст ошибки
+   * @return {Object | null}
+   */
+  setError(error){
+    this.setState({
+      ...this.getState(),
+      error: {message:error},
+    })
+
+    return this.getState().error
   }
 }
 
