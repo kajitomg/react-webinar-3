@@ -28,7 +28,7 @@ function Profile() {
         <LocaleSelect/>
       </Head>
       <Navigation />
-      <ProfileInfo name={select.user.profile?.name} email={select.user.email} phonenumber={select.user.profile?.phone}/>
+      <ProfileInfo name={select.user.profile?.name} email={select.user.email} phonenumber={select.user.profile?.phone} labelTitle={t('profile.title')}/>
     </PageLayout>
   );
 }

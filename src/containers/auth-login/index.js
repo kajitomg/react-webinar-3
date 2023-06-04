@@ -6,6 +6,7 @@ import useSelector from "../../hooks/use-selector";
 import { useNavigate} from "react-router-dom";
 import AuthForm from "../../components/auth-form";
 import AuthError from "../../components/auth-error";
+import useTranslate from "../../hooks/use-translate";
 
 function AuthLogin() {
   const store = useStore();
@@ -19,6 +20,7 @@ function AuthLogin() {
     error:state.user.error,
     user:state.user.info
   }));
+
   const callbacks = {
     onLogin:useCallback(() => {
       if(login.length === 0 || password.length === 0) return
@@ -33,14 +35,17 @@ function AuthLogin() {
     },[login,password])
   }
 
+  const {t} = useTranslate();
+
   return (
     <Spinner active={select.waiting}>
       <SideLayout padding='medium'>
       <div>
-        <h2>Вход</h2>
-        <AuthForm loginValue={login} onLoginChange={setLogin} passwordValue={password} onPasswordChange={setPassword}/>
+        <h2>{t('login.title')}</h2>
+        <AuthForm loginValue={login} onLoginChange={setLogin} passwordValue={password} onPasswordChange={setPassword}
+                  loginLabel={t('login.login')} passwordLabel={t('login.password')}/>
         {select.error && <AuthError error={select.error.message}/>}
-        <button  onClick={callbacks.onLogin} tabIndex={3}>Войти</button>
+        <button  onClick={callbacks.onLogin} tabIndex={3}>{t('login.enter')}</button>
       </div>
       </SideLayout>
     </Spinner>

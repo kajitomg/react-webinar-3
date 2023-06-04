@@ -8,7 +8,7 @@ function ProfileInfo(props) {
 
   return (
     <div className={cn()}>
-      <h2 className={cn('title')}>Профиль</h2>
+      <h2 className={cn('title')}>{props.labelTitle}</h2>
       <span className={cn('item')}>Имя: <span>{props.name}</span></span>
       <span className={cn('item')}>Телефон: <span>{props.phonenumber}</span></span>
       <span className={cn('item')}>email: <span>{props.email}</span></span>
@@ -19,12 +19,14 @@ function ProfileInfo(props) {
 ProfileInfo.propTypes = {
   name:PropTypes.string,
   phonenumber:PropTypes.string,
-  email:PropTypes.string
+  email:PropTypes.string,
+  labelTitle:PropTypes.string
 }
 ProfileInfo.defaultProps = {
-  name:undefined,
-  phonenumber:undefined,
-  email:undefined
+  name:'Имя',
+  phonenumber:'Телефон',
+  email:'email',
+  labelTitle:'Профиль'
 }
 
 export default memo(ProfileInfo);

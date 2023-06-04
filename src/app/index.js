@@ -17,14 +17,9 @@ function App() {
 
   const activeModal = useSelector(state => state.modals.name);
 
-  const select = useSelector(state => ({
-    isLogin: state.user.isLogin
-  }));
-
   useInit(() => {
     store.actions.user.initLogin();
   }, [], true);
-
 
   return (
     <>

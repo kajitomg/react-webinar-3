@@ -13,7 +13,7 @@ function HeaderAccount(props){
       {
         props.isLogin && <Link to={`/profile`} className={cn('name')}>{props.name}</Link>
       }
-      <button onClick={props.isLogin ?props.onLogout:props.onLogin} className={cn('button')}>{props.isLogin ?'Выход':'Вход'}</button>
+      <button onClick={props.isLogin ?props.onLogout:props.onLogin} className={cn('button')}>{props.loginLabel}</button>
     </div>
   )
 }
@@ -23,14 +23,17 @@ HeaderAccount.propTypes = {
   id: PropTypes.string,
   name: PropTypes.string,
   onLogout: PropTypes.func,
-  onLogin: PropTypes.func
+  onLogin: PropTypes.func,
+  loginLabel:PropTypes.string
 };
 
 HeaderAccount.defaultProps = {
+  isLogin:false,
   onLogout: () => {},
   onLogin: () => {},
   id: '',
   name: '',
+  loginLabel:'Вход'
 }
 
 export default memo(HeaderAccount);

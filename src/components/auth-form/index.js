@@ -9,9 +9,9 @@ function AuthForm(props){
 
   return (
     <form className={cn()}>
-      <span>Логин</span>
+      <span>{props.loginLabel}</span>
       <Input delay={10} value={props.loginValue} onChange={props.onLoginChange} tabIndex={1}/>
-      <span>Пароль</span>
+      <span>{props.passwordLabel}</span>
       <Input delay={10} value={props.passwordValue} onChange={props.onPasswordChange} tabIndex={2}/>
     </form>
   )
@@ -22,6 +22,8 @@ AuthForm.propTypes = {
   passwordValue:PropTypes.string,
   onLoginChange:PropTypes.func,
   onPasswordChange:PropTypes.func,
+  loginLabel:PropTypes.string,
+  passwordLabel:PropTypes.string
 };
 
 AuthForm.defaultProps = {
@@ -29,6 +31,8 @@ AuthForm.defaultProps = {
   passwordValue:'',
   onLoginChange:() => {},
   onPasswordChange:() => {},
+  loginLabel:'Логин',
+  passwordLabel:'Пароль'
 }
 
 export default memo(AuthForm);

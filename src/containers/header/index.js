@@ -5,6 +5,7 @@ import {useNavigate} from "react-router-dom";
 import useSelector from "../../hooks/use-selector";
 import Spinner from "../../components/spinner";
 import HeaderAccount from "../../components/header-account";
+import useTranslate from "../../hooks/use-translate";
 
 function Header(){
   const store = useStore();
@@ -24,12 +25,14 @@ function Header(){
       navigate('/login')
     },[])
   }
+
+  const {t} = useTranslate();
   
   return (
     <Spinner active={select.waiting}>
       <SideLayout side={'end'} padding='small'>
        <HeaderAccount isLogin={select.isLogin} onLogin={callbacks.onLogin} onLogout={callbacks.onLogout}
-                      id={select.user._id} name={select.user?.profile?.name}/>
+                      id={select.user._id} name={select.user?.profile?.name} loginLabel={select.isLogin ?t('login.logout'):t('login.signin')}/>
       </SideLayout>
     </Spinner>
   )
