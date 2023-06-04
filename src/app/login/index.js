@@ -6,22 +6,17 @@ import LocaleSelect from "../../containers/locale-select";
 import Navigation from "../../containers/navigation";
 import useTranslate from "../../hooks/use-translate";
 import AuthLogin from "../../containers/auth-login";
-import useInit from "../../hooks/use-init";
-import {useNavigate} from "react-router-dom";
+import {Navigate} from "react-router-dom";
 import useSelector from "../../hooks/use-selector";
 
 function Login() {
-  const navigate = useNavigate()
 
   const select = useSelector(state => ({
-    isLogin: state.user.isLogin
+    isLogin: state.user.isLogin,
+    waiting: state.user.waiting
   }));
 
-  useInit(() => {
-    if(select.isLogin){
-      navigate('/')
-    }
-  }, [select.isLogin]);
+  if(!select.isLogin && select.waiting) return <Navigate to={'/'}/>
 
   const {t} = useTranslate();
 

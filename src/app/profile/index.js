@@ -5,13 +5,11 @@ import Head from "../../components/head";
 import LocaleSelect from "../../containers/locale-select";
 import Navigation from "../../containers/navigation";
 import useTranslate from "../../hooks/use-translate";
-import {useNavigate} from "react-router-dom";
+import {Navigate} from "react-router-dom";
 import useSelector from "../../hooks/use-selector";
-import useInit from "../../hooks/use-init";
 import ProfileInfo from "../../components/profile-info";
 
 function Profile() {
-  const navigate = useNavigate()
 
   const select = useSelector(state => ({
     isLogin: state.user.isLogin,
@@ -19,11 +17,7 @@ function Profile() {
     waiting: state.user.waiting,
   }));
 
-  useInit(() => {
-    if(!select.isLogin){
-      navigate('/login')
-    }
-  }, [select.isLogin]);
+  if(!select.isLogin) return <Navigate to={'/login'}/>
 
   const {t} = useTranslate();
 
