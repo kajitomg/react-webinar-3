@@ -13,7 +13,7 @@ function Header(){
 
   const select = useSelector(state => ({
     waiting: state.user.waiting,
-    user:state.profile.info,
+    user:state.user.info,
     isLogin:state.user.isLogin
   }));
 
@@ -21,10 +21,7 @@ function Header(){
     onLogout:useCallback(() => {
       store.actions.user.logout()
         .then((res) => {
-          if(!res){
-            return store.actions.profile.setProfile({},null)
-          }
-          return store.actions.profile.setProfile(store.actions.profile.getState(),res)
+          return store.actions.profile.setProfile({},null)
         })
     },[]),
     onLogin:useCallback(() => {
@@ -35,12 +32,12 @@ function Header(){
   const {t} = useTranslate();
   
   return (
-    <Spinner active={select.waiting}>
       <SideLayout side={'end'} padding='small'>
-       <HeaderAccount isLogin={select.isLogin} onLogin={callbacks.onLogin} onLogout={callbacks.onLogout}
-                      id={select.user._id} name={select.user?.profile?.name} loginLabel={select.isLogin ?t('login.logout'):t('login.signin')}/>
+        <Spinner active={select.waiting}>
+          <HeaderAccount isLogin={select.isLogin} onLogin={callbacks.onLogin} onLogout={callbacks.onLogout}
+                         id={select.user._id} name={select.user?.profile?.name} loginLabel={select.isLogin ?t('login.logout'):t('login.signin')}/>
+        </Spinner>
       </SideLayout>
-    </Spinner>
   )
 }
 

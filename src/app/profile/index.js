@@ -7,13 +7,20 @@ import Navigation from "../../containers/navigation";
 import useTranslate from "../../hooks/use-translate";
 import useSelector from "../../hooks/use-selector";
 import ProfileInfo from "../../components/profile-info";
+import useInit from "../../hooks/use-init";
+import useStore from "../../hooks/use-store";
 
 function Profile() {
+  const store = useStore()
 
   const select = useSelector(state => ({
     user:state.profile.info,
     waiting:state.profile.waiting
   }));
+
+  useInit(() => {
+    store.actions.profile.initProfile()
+  },[])
 
   const {t} = useTranslate();
 

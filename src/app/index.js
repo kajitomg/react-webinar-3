@@ -18,16 +18,13 @@ function App() {
 
   const select = useSelector(state => ({
     isLogin: state.user.isLogin,
-    waiting: state.profile.waiting
+    waiting: state.user.waiting
   }));
 
   const activeModal = useSelector(state => state.modals.name);
 
   useInit(() => {
     store.actions.user.initLogin()
-      .then((res) =>{
-        store.actions.profile.setProfile(res.info,res.error)
-      });
   }, [], true);
 
   return (

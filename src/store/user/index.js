@@ -7,6 +7,7 @@ class UserState extends StoreModule {
 
   initState() {
     return {
+      info:{},
       isLogin: false,
       waiting: true,
       error:null
@@ -18,7 +19,6 @@ class UserState extends StoreModule {
    * @return {Promise<void>}
    */
   async initLogin(){
-    let info = {}
     this.setState({
       ...this.getState(),
       waiting: true
@@ -39,9 +39,9 @@ class UserState extends StoreModule {
     })
       .then(data => {
         // Обработка успешного запроса на сервер
-        info = data
         this.setState({
           ...this.getState(),
+          info:data,
           isLogin: true,
           error:null,
           waiting: false
@@ -54,7 +54,7 @@ class UserState extends StoreModule {
           waiting: false
         })
       })
-    return await {info,error:this.getState().error}
+    return await {info:this.getState().info,error:this.getState().error}
   }
 
   /**
@@ -62,7 +62,6 @@ class UserState extends StoreModule {
    * @return {Promise<void>}
    */
   async login(login,password){
-    let info = {}
     this.setState({
       ...this.getState(),
       waiting: true,
@@ -83,9 +82,9 @@ class UserState extends StoreModule {
     })
       .then(data => {
         // Обработка успешного запроса на сервер
-        info = data.user
         this.setState({
           ...this.getState(),
+          info:data.user,
           isLogin: true,
           error:null,
           waiting: false
@@ -99,7 +98,7 @@ class UserState extends StoreModule {
           waiting: false
         })
       })
-    return await {info, error:this.getState().error}
+    return await {info:this.getState().info, error:this.getState().error}
   }
 
   /**
