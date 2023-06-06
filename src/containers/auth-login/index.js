@@ -47,7 +47,7 @@ function AuthLogin() {
         <h2>{t('login.title')}</h2>
         <AuthForm loginValue={login} onLoginChange={setLogin} passwordValue={password} onPasswordChange={setPassword}
                   loginLabel={t('login.login')} passwordLabel={t('login.password')}/>
-        {select.error && <AuthError error={select.error.message}/>}
+        {select.error && <AuthError error={select.error.data.issues[0].message}/>}
         <button  onClick={callbacks.onLogin} tabIndex={3} >
           {t('login.enter')}
         </button>

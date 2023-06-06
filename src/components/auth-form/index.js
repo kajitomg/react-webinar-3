@@ -12,7 +12,7 @@ function AuthForm(props){
       <span>{props.loginLabel}</span>
       <Input delay={10} value={props.loginValue} onChange={props.onLoginChange} tabIndex={1}/>
       <span>{props.passwordLabel}</span>
-      <Input delay={10} value={props.passwordValue} onChange={props.onPasswordChange} tabIndex={2}/>
+      <Input delay={10} value={props.passwordValue} onChange={props.onPasswordChange} type={'password'} tabIndex={2}/>
     </form>
   )
 }

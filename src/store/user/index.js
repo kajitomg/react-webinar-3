@@ -164,9 +164,10 @@ class UserState extends StoreModule {
    * @return {Object | null}
    */
   setError(error){
+    console.log({issues:[{message:error}]})
     this.setState({
       ...this.getState(),
-      error: {message:error},
+      error: {data:{issues:[{message:error}]}},
     })
 
     return this.getState().error
