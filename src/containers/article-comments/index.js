@@ -27,22 +27,23 @@ function ArticleComments() {
   const selectStore = useSelector(state => ({
     exists: state.session.exists,
     categories: state.categories.list,
+    user: state.session.user,
   }));
 
   const select = {...selectRedux,...selectStore}
 
   const callbacks = {
-    setCommented: useCallback((id) => {
+    setCommented: useCallback((id = null) => {
       dispatch(commentActions.setCommented(id))
     },[])
   }
-  console.log(select.commented)
+
   const renders = {
-    item: useCallback((item) => (
+    item: useCallback(item => (
       <ArticleComment text={item?.text} date={dateFormat(item?.dateCreate).split('г.').join('')}
                       author={searchUser(select.users,item?.author?._id).profile.name} exists={select.exists}
                       tree={item.children} users={select.users} commented={select.commented}
-                      setCommented={callbacks.setCommented} id={item._id}/>
+                      setCommented={callbacks.setCommented} id={item._id} user={select.user}/>
     ), [select.users,select.exists,select.commented]),
   };
   return (
@@ -51,8 +52,8 @@ function ArticleComments() {
       <Comments comments={comments(select.comments)} renderItem={renders.item}/>
       {select.commented === select.article._id ?
         select.exists ?
-          <CommentsResponse title={'Новый комментарий'} article={select.article._id}/> :
-          <CommentsAuth text={'чтобы иметь возможность комментировать'}/>
+          <CommentsResponse title={'Новый комментарий'} article={select.article._id} setCommented={callbacks.setCommented} user={select.user} /> :
+          <CommentsAuth text={'чтобы иметь возможность комментировать'} setCommented={callbacks.setCommented}/>
         :
         ''
       }

@@ -19,7 +19,7 @@ function reducer(state = initialState, action) {
       return { ...state, comments: [], waiting: false}; //@todo текст ошибки сохранить?
 
     case "comment/add-success":
-      return { ...state, comments: [...state.comments, action.payload.comment], users:[...state.users, action.payload.user], waiting: false};
+      return { ...state, comments: [...state.comments, action.payload.comment], users:[...state.users, ...action.payload.user], waiting: false};
 
     case "comment/set-success":
       return { ...state, commented: action.payload.commented, waiting: false};

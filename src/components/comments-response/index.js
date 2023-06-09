@@ -16,9 +16,14 @@ function CommentsResponse(props){
       setText(e.target.value)
     },
     onAdd: () => {
-      dispatch(commentActions.add(text,null,props.article,props.parent))
-      dispatch(commentActions.setCommented());
+      dispatch(commentActions.add(text,props.user,props.parent))
+      props.setCommented()
+      setText('')
+    },
+    onClose: () => {
+      props.setCommented()
     }
+
   }
 
   return (
@@ -27,18 +32,19 @@ function CommentsResponse(props){
       <textarea className={cn('textarea')} value={text} onChange={callbacks.onChange}></textarea>
       <div className={cn('buttons')}>
         <button className={cn('button')} role={'button'} onClick={callbacks.onAdd}>Отправить</button>
-        {props.button && <button className={cn('button')} role={'button'}>{props.button}</button>}
+        {props.button && <button className={cn('button')} role={'button'} onClick={callbacks.onClose}>{props.button}</button>}
       </div>
     </div>
   );
 }
 
 CommentsResponse.propTypes = {
+  user:PropTypes.object,
   title:PropTypes.string,
   button:PropTypes.string,
-  article:PropTypes.string,
   parent:PropTypes.object,
-  nested:PropTypes.bool
+  nested:PropTypes.bool,
+  setCommented:PropTypes.func
 };
 
 CommentsResponse.defaultProps = {

@@ -38,19 +38,54 @@ export default {
    * @param text Комментарий
    * @param user Данные комментатора
    * @param id Идентификатор поста
-   * @param parent Идентификатор поста
+   * @param parent Идентификатор родителя поста
    * @return {Function}
    */
-  add: (text, user, id,parent = null) => {
+  add: (text, user,parent = null) => {
     return async (dispatch, getState, services) => {
       try {
-        console.log(getState)
-        // Комментарии загружены успешно
-        //dispatch({type: 'comment/add-success', payload: {comments: res.data.result.items,users:users.data.result.items}});
+        const id = (new Date()).getTime().toString()
+        const type = parent ?'comment':'article'
+        if(!parent) parent = getState().article.data
 
+        const comment = {
+          author:{
+            _id:user._id,
+            _type:user._type
+          },
+          dateCreate:new Date().toISOString(),
+          dateUpdate:new Date().toISOString(),
+          parent:{
+            _id:parent._id,
+            _tree:
+              getState().article.data._id !== parent._id ?[{
+                _id:parent._id,
+                _type:parent._type
+              },
+                {
+                  _id:getState().article.data._id,
+                  _type:getState().article.data._type
+                }
+
+            ]:[
+                {
+                  _id:parent._id,
+                  _type:parent._type
+                }
+              ],
+            _type:parent._type
+          },
+          text:text,
+          _id:id,
+          _type:type
+        }
+        getState().comment.users.forEach((item) => {
+          if(item._id === user._id) return user = []
+        })
+
+        // Комментарии загружены успешно
+        dispatch({type: 'comment/add-success', payload: {comment,user:user}});
       } catch (e) {
-        //Ошибка загрузки
-        dispatch({type: 'comment/load-error'});
       }
     }
   },
@@ -63,8 +98,7 @@ export default {
   setCommented: (id = null) => {
     return async (dispatch, getState, services) => {
       try {
-
-        dispatch({type: 'comment/set-success', payload: {commented: id | getState().article.data._id}});
+        dispatch({type: 'comment/set-success', payload: {commented: id || getState().article.data._id}});
 
       } catch (e) {
         //Ошибка загрузки

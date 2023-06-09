@@ -1,4 +1,4 @@
-import {memo, useCallback, useState} from "react";
+import {memo, useCallback} from "react";
 import {cn as bem} from '@bem-react/classname';
 import './style.css';
 import PropTypes from "prop-types";
@@ -11,16 +11,20 @@ import CommentsAuth from "../comments-auth";
 function ArticleComment(props){
   const cn = bem('ArticleComment');
 
+  const callbacks = {
+    setCommented: useCallback(() => {
+      props.setCommented(props.id)
+    },[])
+  }
 
   const renders = {
     item: useCallback((item) => (
       <ArticleComment text={item?.text} date={dateFormat(item?.dateCreate).split('г.').join('')}
                       author={searchUser(props.users,item?.author?._id).profile.name} exists={props.exists}
                       tree={item.children} users={props.users} nested={true} commented={props.commented} setCommented={props.setCommented}
-                      id={item._id}/>
-    ), [props.tree,props.users,props.exists]),
+                      id={item._id} user={props.user} item={item}/>
+    ), [props.tree,props.users,props.exists,props.commented]),
   };
-
   return (
     <div className={cn({nested:props.nested})}>
       <div className={cn('info')}>
@@ -29,15 +33,15 @@ function ArticleComment(props){
       </div>
       <div className={cn('text')}>{props.text}</div>
       <div className={cn('buttons')}>
-        <span className={cn('button')} role={'button'} onClick={props.setCommented(props.id)}>Ответить</span>
+        <span className={cn('button')} role={'button'} onClick={callbacks.setCommented}>Ответить</span>
       </div>
       {props.children}
       {props.tree &&
         <>
           {props.commented === props.id ?
             props.exists ?
-              <CommentsResponse title={'Новый ответ'} button={'Отмена'} nested={true}/> :
-              <CommentsAuth text={'чтобы иметь возможность ответить.'} button={'Отмена'} nested={true}/>
+              <CommentsResponse title={'Новый ответ'} button={'Отмена'} nested={true} setCommented={props.setCommented} user={props.user} parent={props.item} /> :
+              <CommentsAuth text={'чтобы иметь возможность ответить.'} button={'Отмена'} nested={true} setCommented={props.setCommented}/>
             :
             ''
           }
@@ -49,6 +53,7 @@ function ArticleComment(props){
 }
 
 ArticleComment.propTypes = {
+  item:PropTypes.object,
   id:PropTypes.string,
   author:PropTypes.string,
   date:PropTypes.string,
@@ -56,6 +61,7 @@ ArticleComment.propTypes = {
   tree:PropTypes.array,
   exists:PropTypes.bool,
   users:PropTypes.array,
+  user:PropTypes.object,
   nested:PropTypes.bool,
   commented:PropTypes.string,
   setCommented:PropTypes.func
