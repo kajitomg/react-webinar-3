@@ -1,0 +1,32 @@
+.ArticleComment {
+  padding: 10px 0;
+}
+.ArticleComment_nested {
+  padding: 10px 0 0 0;
+}
+
+.ArticleComment-info {
+  margin: 5px 0 10px;
+}
+
+.ArticleComment-author {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.ArticleComment-date {
+  margin: 0 0 0 10px;
+  font-size: 12px;
+}
+
+.ArticleComment-text {
+  margin: 10px 0;
+  font-size: 14px;
+}
+
+.ArticleComment-button {
+  cursor: pointer;
+  font-size: 12px;
+  color: #0087E9;
+  display: inline-block;
+}

@@ -1,0 +1,19 @@
+.CommentsAuth {
+  padding: 10px 40px;
+}
+
+.CommentsAuth_nested {
+  padding: 10px 0 0 0;
+}
+
+.CommentsAuth-text {
+}
+
+.CommentsAuth button {
+  font-size: 16px;
+  cursor: pointer;
+  text-decoration: underline;
+  color: #666666;
+  background: transparent;
+  border: none;
+}

@@ -1,0 +1,27 @@
+.CommentsResponse {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 10px 40px;
+}
+
+.CommentsResponse_nested {
+  padding: 10px 0 0 0;
+}
+
+.CommentsResponse-title {
+  font-size: 12px;
+  margin: 0;
+}
+
+.CommentsResponse-textarea {
+  font-size: 14px;
+  width: 100%;
+  height: 76px;
+  margin: 10px 0;
+}
+
+.CommentsResponse-button {
+  cursor: pointer;
+  margin: 0 10px 0 0;
+}
