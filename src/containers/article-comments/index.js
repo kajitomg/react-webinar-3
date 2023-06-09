@@ -43,16 +43,17 @@ function ArticleComments() {
       <ArticleComment text={item?.text} date={dateFormat(item?.dateCreate).split('г.').join('')}
                       author={searchUser(select.users,item?.author?._id).profile.name} exists={select.exists}
                       tree={item.children} users={select.users} commented={select.commented}
-                      setCommented={callbacks.setCommented} id={item._id} user={select.user}/>
+                      setCommented={callbacks.setCommented} id={item._id} user={select.user} item={item}/>
     ), [select.users,select.exists,select.commented]),
   };
+  console.log(select.comments)
   return (
     <>
       <CommentsAmount amount={select.comments.length}/>
       <Comments comments={comments(select.comments)} renderItem={renders.item}/>
       {select.commented === select.article._id ?
         select.exists ?
-          <CommentsResponse title={'Новый комментарий'} article={select.article._id} setCommented={callbacks.setCommented} user={select.user} /> :
+          <CommentsResponse title={'Новый комментарий'} article={select.article._id} setCommented={callbacks.setCommented} user={select.user}/> :
           <CommentsAuth text={'чтобы иметь возможность комментировать'} setCommented={callbacks.setCommented}/>
         :
         ''
