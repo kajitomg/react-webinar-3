@@ -9,7 +9,7 @@ function CommentsAuth(props){
 
   const callbacks = {
     onClose: () => {
-      props.setCommented()
+      props.onClose()
     }
   }
 
@@ -24,11 +24,15 @@ function CommentsAuth(props){
 CommentsAuth.propTypes = {
   text:PropTypes.string,
   button:PropTypes.string,
-  nested:PropTypes.bool,
-  setCommented:PropTypes.func
+  onClose:PropTypes.func,
+  nested:PropTypes.bool
 };
 
 CommentsAuth.defaultProps = {
+  text:'чтобы иметь возможность комментировать',
+  button:null,
+  setCommented:() => {},
+  nested:false
 }
 
 export default memo(CommentsAuth);

@@ -27,6 +27,7 @@ Comments.propTypes = {
 
 Comments.defaultProps = {
   renderItem: (item) => {},
+  nested:false
 }
 
 export default memo(Comments);

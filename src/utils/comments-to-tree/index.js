@@ -4,7 +4,7 @@
  * @param [key] {String} Свойство с первичным ключом
  * @returns {Array} Корневые узлы
  */
-export default function comments(list, key = '_id') {
+export default function commentsToTree(list, key = '_id') {
   let trees = {};
   let roots = {};
   for (const item of list) {

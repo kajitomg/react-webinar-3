@@ -2,12 +2,9 @@ import {memo, useState} from "react";
 import {cn as bem} from '@bem-react/classname';
 import PropTypes from "prop-types";
 import './style.css';
-import {useDispatch} from "react-redux";
-import commentActions from "../../store-redux/comment/actions";
 
 function CommentsResponse(props){
   const cn = bem('CommentsResponse');
-  const dispatch = useDispatch()
 
   const [text, setText] = useState('')
 
@@ -16,14 +13,12 @@ function CommentsResponse(props){
       setText(e.target.value)
     },
     onAdd: () => {
-      dispatch(commentActions.add(text,props.user,props.parent))
-      props.setCommented()
+      props.onAdd(text,props.parent)
       setText('')
     },
     onClose: () => {
-      props.setCommented()
+      props.onClose()
     }
-
   }
 
   return (
@@ -39,19 +34,21 @@ function CommentsResponse(props){
 }
 
 CommentsResponse.propTypes = {
-  user:PropTypes.object,
   title:PropTypes.string,
   button:PropTypes.string,
+  onClose:PropTypes.func,
+  onAdd:PropTypes.func,
   parent:PropTypes.object,
-  nested:PropTypes.bool,
-  setCommented:PropTypes.func
+  nested:PropTypes.bool
 };
 
 CommentsResponse.defaultProps = {
   title:'Новый комментарий',
   button:null,
-  article:'',
-  parent:null
+  parent:null,
+  onClose:() => {},
+  onAdd:() => {},
+  nested:false
 }
 
 export default memo(CommentsResponse);
