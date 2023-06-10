@@ -1,14 +1,16 @@
-import {memo, useCallback} from "react";
+import {memo, useCallback, useRef} from "react";
 import {cn as bem} from '@bem-react/classname';
 import PropTypes from "prop-types";
 import './style.css';
 
 function ArticleComment(props){
   const cn = bem('ArticleComment');
+  const ref = useRef(null)
 
   const callbacks = {
     setCommented: useCallback(() => {
       props.setCommented(props.id)
+      ref.current.scrollIntoView({block:'center'})
     },[]),
 
     onAdd:useCallback((text,parent) => {
@@ -28,6 +30,7 @@ function ArticleComment(props){
         <span className={cn('button')} role={'button'} onClick={callbacks.setCommented}>Ответить</span>
       </div>
       {props.children}
+      <div ref={ref} className={'block'}></div>
     </div>
   );
 }
