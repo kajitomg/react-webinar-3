@@ -50,7 +50,8 @@ function ArticleComments() {
   const renders = {
     item: useCallback(item => (
       <ArticleComment text={item?.text} date={dateFormat(item?.dateCreate).split('г.').join('')} author={searchUser(select.users,item?.author?._id).profile.name}
-                      setCommented={callbacks.setCommented} id={item._id} onAdd={callbacks.onAdd} nested={item.parent._id !== select.article._id}>
+                      setCommented={callbacks.setCommented} id={item._id} onAdd={callbacks.onAdd} nested={item.parent._id !== select.article._id} isUser={item?.author?._id === select.user._id}>
+        <Comments comments={item.children} renderItem={renders.item} nested={true}/>
         {select.commented === item._id ?
           select.exists
             ?
@@ -59,7 +60,6 @@ function ArticleComments() {
           :
           ''
         }
-        <Comments comments={item.children} renderItem={renders.item} nested={true}/>
       </ArticleComment>
     ), [select.users, select.exists, select.commented, select.users]),
   };

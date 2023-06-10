@@ -20,7 +20,7 @@ function ArticleComment(props){
   return (
     <div className={cn({nested:props.nested})}>
       <div className={cn('info')}>
-        <span className={cn('author')}>{props.author}</span>
+        <span className={cn('author',{user:props.isUser})}>{props.author}</span>
         <span className={cn('date')}>{props.date}</span>
       </div>
       <div className={cn('text')}>{props.text}</div>
@@ -34,6 +34,7 @@ function ArticleComment(props){
 
 ArticleComment.propTypes = {
   author:PropTypes.string,
+  isUser:PropTypes.bool,
   date:PropTypes.string,
   text:PropTypes.string,
   nested:PropTypes.bool,

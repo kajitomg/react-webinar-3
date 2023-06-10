@@ -10,22 +10,20 @@ export default {
       dispatch({type: 'comment/load-start'});
 
       try {
-        const res = await services.api.request({
-          url: `/api/v1/comments/?search[parent]=${id}`
+        const userIDs = []
+        const comments = await services.api.request({
+          url: `/api/v1/comments/?search[parent]=${id}&limit=*`
         });
-        let userIDs = ''
-        res.data.result.items.forEach((item,i) => {
-          userIDs += item.author._id
-          if(res.data.result.items.length > i + 1){
-            userIDs += '|'
-          }
-        })
+
+        comments.data.result.items.forEach(item => !userIDs.includes(item.author._id) && userIDs.push(item.author._id))
+
         const users = await services.api.request({
-          url: `/api/v1/users/?search[query]=${userIDs}`
+          url: `/api/v1/users/?search[query]=${comments.data.result.items.length > 0 ? userIDs.join('|') : '*'}`
         });
-        dispatch({type: 'comment/set-success', payload: {commented: getState().article.data._id}});
+
         // Комментарии загружены успешно
-        dispatch({type: 'comment/load-success', payload: {comments: res.data.result.items,users:users.data.result.items}});
+        dispatch({type: 'comment/load-success', payload: {comments: comments.data.result.items,users:users.data.result.items}});
+        dispatch({type: 'comment/set-success', payload: {commented: getState().article.data._id}});
 
       } catch (e) {
         //Ошибка загрузки
@@ -40,50 +38,28 @@ export default {
    * @param parent Идентификатор родителя поста
    * @return {Function}
    */
-  add: (text, user,parent = null) => {
+  add: (text ,user ,parent = null) => {
     return async (dispatch, getState, services) => {
       try {
-        const id = (new Date()).getTime().toString()
-        const type = parent ?'comment':'article'
         if(!parent) parent = getState().article.data
 
-        const comment = {
-          author:{
-            _id:user._id,
-            _type:user._type
-          },
-          dateCreate:new Date().toISOString(),
-          dateUpdate:new Date().toISOString(),
-          parent:{
-            _id:parent._id,
-            _tree:
-              getState().article.data._id !== parent._id ?[{
-                _id:parent._id,
-                _type:parent._type
-              },
-                {
-                  _id:getState().article.data._id,
-                  _type:getState().article.data._type
-                }
-
-            ]:[
-                {
-                  _id:parent._id,
-                  _type:parent._type
-                }
-              ],
-            _type:parent._type
-          },
-          text:text,
-          _id:id,
-          _type:type
+        const data = {
+          text,
+          parent,
         }
-        getState().comment.users.forEach((item) => {
+
+        const res = await services.api.request({
+          url: `/api/v1/comments`,
+          method:'POST',
+          body: JSON.stringify(data)
+        });
+
+        getState().comment.users.forEach(item => {
           if(item._id === user._id) return user = []
         })
 
         // Комментарий успешно добавлен
-        dispatch({type: 'comment/add-success', payload: {comment,user:user}});
+        dispatch({type: 'comment/add-success', payload: {comment:res.data.result,user:user}});
       } catch (e) {
         //Ошибка загрузки
         dispatch({type: 'comment/add-error',payload:{error: {text:e}}});

@@ -13,6 +13,9 @@
   font-size: 12px;
   font-weight: 700;
 }
+.ArticleComment-author_user {
+  color: #666666;
+}
 
 .ArticleComment-date {
   margin: 0 0 0 10px;
@@ -22,6 +25,7 @@
 .ArticleComment-text {
   margin: 10px 0;
   font-size: 14px;
+  word-wrap: break-word
 }
 
 .ArticleComment-button {
