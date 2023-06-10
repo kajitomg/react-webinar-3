@@ -29,7 +29,7 @@ export default {
 
       } catch (e) {
         //Ошибка загрузки
-        dispatch({type: 'comment/load-error'});
+        dispatch({type: 'comment/load-error',payload:{error: {text:e}}});
       }
     }
   },
@@ -37,7 +37,6 @@ export default {
    * Добавление комментария
    * @param text Комментарий
    * @param user Данные комментатора
-   * @param id Идентификатор поста
    * @param parent Идентификатор родителя поста
    * @return {Function}
    */
@@ -83,9 +82,11 @@ export default {
           if(item._id === user._id) return user = []
         })
 
-        // Комментарии загружены успешно
+        // Комментарий успешно добавлен
         dispatch({type: 'comment/add-success', payload: {comment,user:user}});
       } catch (e) {
+        //Ошибка загрузки
+        dispatch({type: 'comment/add-error',payload:{error: {text:e}}});
       }
     }
   },
@@ -102,7 +103,7 @@ export default {
 
       } catch (e) {
         //Ошибка загрузки
-        dispatch({type: 'comment/load-error'});
+        dispatch({type: 'comment/set-error',payload:{error: {text:e}}});
       }
     }
   },

@@ -23,12 +23,14 @@ function CommentsResponse(props){
 
   return (
     <div className={cn({nested:props.nested})}>
-      <h4 className={cn('title')}>{props.title}</h4>
-      <textarea className={cn('textarea')} value={text} onChange={callbacks.onChange}></textarea>
-      <div className={cn('buttons')}>
-        <button className={cn('button')} role={'button'} onClick={callbacks.onAdd}>Отправить</button>
-        {props.button && <button className={cn('button')} role={'button'} onClick={callbacks.onClose}>{props.button}</button>}
-      </div>
+      <form className={cn('form')}>
+        <h4 className={cn('title')}>{props.title}</h4>
+        <textarea className={cn('textarea')} value={text} onChange={callbacks.onChange}></textarea>
+        <div className={cn('buttons')}>
+          <button className={cn('button')} role={'button'} onClick={callbacks.onAdd} type={'submit'}>Отправить</button>
+          {props.button && <button className={cn('button')} role={'button'} onClick={callbacks.onClose}>{props.button}</button>}
+        </div>
+      </form>
     </div>
   );
 }

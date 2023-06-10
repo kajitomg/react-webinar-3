@@ -24,8 +24,7 @@ function Article() {
 
   const select = useSelectorRedux(state => ({
     article: state.article.data,
-    waiting: state.article.waiting,
-    comments: state.comment.comments
+    waiting: state.article.waiting
   }), shallowequal); // Нужно указать функцию для сравнения свойства объекта, так как хуком вернули объект
 
   useInit(() => {

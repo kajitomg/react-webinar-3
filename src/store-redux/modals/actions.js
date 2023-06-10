@@ -9,7 +9,6 @@ export default {
 
   /**
    * Закрытие модалки
-   * @param name
    */
   close: () => {
     return {type: 'modal/close'}

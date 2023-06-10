@@ -36,10 +36,12 @@ function ArticleComments() {
     setCommented: useCallback((id = null) => {
       dispatch(commentActions.setCommented(id))
     },[]),
+
     onAdd: useCallback((text,parent) => {
       dispatch(commentActions.add(text,select.user,parent))
       callbacks.setCommented()
     },[select.user]),
+
     onClose: () => {
       callbacks.setCommented()
     }
@@ -48,16 +50,16 @@ function ArticleComments() {
   const renders = {
     item: useCallback(item => (
       <ArticleComment text={item?.text} date={dateFormat(item?.dateCreate).split('г.').join('')} author={searchUser(select.users,item?.author?._id).profile.name}
-                      setCommented={callbacks.setCommented} id={item._id} onAdd={callbacks.onAdd} nested={true}>
-          {select.commented === item._id ?
-            select.exists
-              ?
-                <CommentsResponse title={'Новый ответ'} button={'Отмена'} nested={true} onClose={callbacks.onClose} onAdd={callbacks.onAdd} parent={item}/> :
-                <CommentsAuth text={'чтобы иметь возможность ответить.'} button={'Отмена'} nested={true} onClose={callbacks.onClose}/>
-              :
-                ''
-          }
-          <Comments comments={item.children} renderItem={renders.item} nested={true}/>
+                      setCommented={callbacks.setCommented} id={item._id} onAdd={callbacks.onAdd} nested={item.parent._id !== select.article._id}>
+        {select.commented === item._id ?
+          select.exists
+            ?
+            <CommentsResponse title={'Новый ответ'} button={'Отмена'} nested={true} onClose={callbacks.onClose} onAdd={callbacks.onAdd} parent={item}/> :
+            <CommentsAuth text={'чтобы иметь возможность ответить.'} button={'Отмена'} nested={true} onClose={callbacks.onClose}/>
+          :
+          ''
+        }
+        <Comments comments={item.children} renderItem={renders.item} nested={true}/>
       </ArticleComment>
     ), [select.users, select.exists, select.commented, select.users]),
   };
