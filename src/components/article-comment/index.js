@@ -30,7 +30,7 @@ function ArticleComment(props){
         <span className={cn('button')} role={'button'} onClick={callbacks.setCommented}>Ответить</span>
       </div>
       {props.children}
-      <div ref={ref} className={'block'}></div>
+      <div ref={ref}></div>
     </div>
   );
 }

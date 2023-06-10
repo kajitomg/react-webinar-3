@@ -12,7 +12,8 @@ function CommentsResponse(props){
     onChange: (e) => {
       setText(e.target.value)
     },
-    onAdd: () => {
+    onAdd: (e) => {
+      e.preventDefault()
       props.onAdd(text,props.parent)
       setText('')
     },
