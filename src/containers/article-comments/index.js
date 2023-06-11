@@ -12,6 +12,7 @@ import useSelector from "../../hooks/use-selector";
 import {useDispatch} from "react-redux";
 import commentActions from "../../store-redux/comment/actions";
 import commentsToTree from "../../utils/comments-to-tree";
+import useTranslate from "../../hooks/use-translate";
 
 function ArticleComments() {
 
@@ -47,30 +48,32 @@ function ArticleComments() {
     }
   }
 
+  const {t} = useTranslate();
+
   const renders = {
     item: useCallback(item => (
       <ArticleComment text={item?.text} date={dateFormat(item?.dateCreate).split('г.').join('')} author={searchUser(select.users,item?.author?._id)?.profile?.name}
-                      setCommented={callbacks.setCommented} id={item._id} onAdd={callbacks.onAdd} nested={item.parent._id !== select.article._id} isUser={item?.author?._id === select.user._id}>
+                      setCommented={callbacks.setCommented} id={item._id} onAdd={callbacks.onAdd} nested={item.parent._id !== select.article._id}
+                      isUser={item?.author?._id === select.user._id} answer={t('comment.answer')}>
         {item.children.length > 0 && <Comments comments={item.children} renderItem={renders.item} nested={true}/>}
         {select.commented === item._id ?
           select.exists
             ?
-            <CommentsResponse title={'Новый ответ'} button={'Отмена'} nested={true} onClose={callbacks.onClose} onAdd={callbacks.onAdd} parent={item}/> :
-            <CommentsAuth text={'чтобы иметь возможность ответить.'} button={'Отмена'} nested={true} onClose={callbacks.onClose}/>
+            <CommentsResponse title={t('comment.newAnswer')} button={t('comment.cancel')} nested={true} paddingOff={item.parent._tree.length >= 17} onClose={callbacks.onClose} onAdd={callbacks.onAdd} parent={item} submit={t('comment.submit')}/> :
+            <CommentsAuth text={'чтобы иметь возможность ответить.'} button={t('comment.cancel')} nested={true} paddingOff={item.parent._tree.length >= 17} onClose={callbacks.onClose}/>
           :
           ''
         }
       </ArticleComment>
-    ), [select.users, select.exists, select.commented, select.users]),
+    ), [select.users, select.exists, select.commented, select.users, t]),
   };
-
   return (
     <>
-      <CommentsAmount amount={select.comments.length}/>
+      <CommentsAmount amount={select.comments.length} comments={t('comment.comments')}/>
       <Comments comments={commentsToTree(select.comments)} renderItem={renders.item}/>
       {select.commented === select.article._id ?
         select.exists ?
-          <CommentsResponse title={'Новый комментарий'} article={select.article._id} setCommented={callbacks.setCommented} onAdd={callbacks.onAdd}/> :
+          <CommentsResponse title={t('comment.newComment')} article={select.article._id} setCommented={callbacks.setCommented} onAdd={callbacks.onAdd} submit={t('comment.submit')}/> :
           <CommentsAuth text={'чтобы иметь возможность комментировать'} setCommented={callbacks.setCommented}/>
         :
         ''

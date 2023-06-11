@@ -15,7 +15,7 @@ function CommentsAuth(props){
   }
 
   return (
-    <div className={cn({nested:props.nested})}>
+    <div className={cn({nested:props.nested,paddingOff:props.paddingOff})}>
       <span className={cn('text')}><Link to={'/login'} state={{back:location.pathname}}>Войдите</Link>, {props.text}</span>
       {props.button && <button className={cn('button')} role={'button'} onClick={callbacks.onClose}>{props.button}</button>}
     </div>
@@ -26,7 +26,8 @@ CommentsAuth.propTypes = {
   text:PropTypes.string,
   button:PropTypes.string,
   onClose:PropTypes.func,
-  nested:PropTypes.bool
+  nested:PropTypes.bool,
+  paddingOff:PropTypes.bool
 };
 
 CommentsAuth.defaultProps = {

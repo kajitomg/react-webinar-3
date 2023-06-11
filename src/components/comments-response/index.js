@@ -14,6 +14,7 @@ function CommentsResponse(props){
     },
     onAdd: (e) => {
       e.preventDefault()
+      if(text.length === 0) return
       props.onAdd(text,props.parent)
       setText('')
     },
@@ -23,12 +24,12 @@ function CommentsResponse(props){
   }
 
   return (
-    <div className={cn({nested:props.nested})}>
+    <div className={cn({nested:props.nested,paddingOff:props.paddingOff})}>
       <form className={cn('form')}>
         <h4 className={cn('title')}>{props.title}</h4>
         <textarea className={cn('textarea')} value={text} onChange={callbacks.onChange}></textarea>
         <div className={cn('buttons')}>
-          <button className={cn('button')} role={'button'} onClick={callbacks.onAdd} type={'submit'}>Отправить</button>
+          <button className={cn('button')} role={'button'} onClick={callbacks.onAdd} type={'submit'}>{props.submit}</button>
           {props.button && <button className={cn('button')} role={'button'} onClick={callbacks.onClose}>{props.button}</button>}
         </div>
       </form>
@@ -42,7 +43,9 @@ CommentsResponse.propTypes = {
   onClose:PropTypes.func,
   onAdd:PropTypes.func,
   parent:PropTypes.object,
-  nested:PropTypes.bool
+  nested:PropTypes.bool,
+  submit:PropTypes.string,
+  paddingOff:PropTypes.string
 };
 
 CommentsResponse.defaultProps = {

@@ -6,6 +6,10 @@
   padding: 10px 0 0 40PX;
 }
 
+.CommentsResponse_paddingOff {
+  padding: 10px 0 0;
+}
+
 .CommentsResponse-form {
   width: 100%;
 }

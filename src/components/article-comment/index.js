@@ -27,7 +27,7 @@ function ArticleComment(props){
       </div>
       <div className={cn('text')}>{props.text}</div>
       <div className={cn('buttons')}>
-        <span className={cn('button')} role={'button'} onClick={callbacks.setCommented}>Ответить</span>
+        <span className={cn('button')} role={'button'} onClick={callbacks.setCommented}>{props.answer}</span>
       </div>
       {props.children}
       <div ref={ref}></div>
@@ -42,7 +42,8 @@ ArticleComment.propTypes = {
   text:PropTypes.string,
   nested:PropTypes.bool,
   onAdd:PropTypes.func,
-  setCommented:PropTypes.func
+  setCommented:PropTypes.func,
+  answer:PropTypes.string
 };
 
 ArticleComment.defaultProps = {
