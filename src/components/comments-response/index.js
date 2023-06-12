@@ -14,7 +14,7 @@ function CommentsResponse(props){
     },
     onAdd: (e) => {
       e.preventDefault()
-      if(text.length === 0) return
+      if(text.length === 0 || !text.replace(/\s/g, '').length) return setText('')
       props.onAdd(text,props.parent)
       setText('')
     },
