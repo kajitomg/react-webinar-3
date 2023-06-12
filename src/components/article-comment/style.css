@@ -5,15 +5,6 @@
 .ArticleComment_nested {
   padding: 10px 0 0 0;
 }
-.ArticleComment_nested .ArticleComment-info {
-  margin: 10px 30px 0 0;
-}
-.ArticleComment_nested .ArticleComment-text {
-  margin: 10px 30px 0 0;
-}
-.ArticleComment_nested .ArticleComment-buttons {
-  margin: 0 30px 0 0;
-}
 
 .ArticleComment-info {
   margin: 5px 0 10px;

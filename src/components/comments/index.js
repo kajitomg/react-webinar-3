@@ -7,7 +7,7 @@ function Comments({comments, renderItem, nested}){
   const cn = bem('Comments');
 
   return (
-    <div className={cn({nested, paddingOff:comments[0]?.parent?._tree?.length > 18})}>{
+    <div className={cn({nested, paddingOff:comments[0]?.parent?._tree?.length > 23})}>{
       comments.map(item =>
         <div key={item._id} className={cn('items')}>
           {renderItem(item)}

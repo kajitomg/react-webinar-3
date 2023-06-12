@@ -59,8 +59,8 @@ function ArticleComments() {
         {select.commented === item._id ?
           select.exists
             ?
-            <CommentsResponse title={t('comment.newAnswer')} button={t('comment.cancel')} nested={true} paddingOff={item.parent._tree.length >= 17} onClose={callbacks.onClose} onAdd={callbacks.onAdd} parent={item} submit={t('comment.submit')}/> :
-            <CommentsAuth text={'чтобы иметь возможность ответить.'} button={t('comment.cancel')} nested={true} paddingOff={item.parent._tree.length >= 17} onClose={callbacks.onClose}/>
+            <CommentsResponse title={t('comment.newAnswer')} button={t('comment.cancel')} nested={true} paddingOff={item.parent._tree.length >= 22} onClose={callbacks.onClose} onAdd={callbacks.onAdd} parent={item} submit={t('comment.submit')}/> :
+            <CommentsAuth text={'чтобы иметь возможность ответить.'} button={t('comment.cancel')} nested={true} paddingOff={item.parent._tree.length >= 22} onClose={callbacks.onClose}/>
           :
           ''
         }
