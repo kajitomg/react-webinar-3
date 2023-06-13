@@ -8,7 +8,7 @@ import ItemBasket from "../../components/item-basket";
 import List from "../../components/list";
 import ModalLayout from "../../components/modal-layout";
 import BasketTotal from "../../components/basket-total";
-import modalsActions from '../../store-redux/modals/actions';
+import modalsActions from '../../services/store-redux/modals/actions';
 
 function Basket() {
 
@@ -39,17 +39,14 @@ function Basket() {
                   link={`/articles/${item._id}`}
                   onRemove={callbacks.removeFromBasket}
                   onLink={callbacks.closeModal}
-                  labelUnit={t('basket.unit')}
-                  labelDelete={t('basket.delete')}
       />
-    ), [callbacks.removeFromBasket, t]),
+    ), [callbacks.removeFromBasket]),
   };
 
   return (
-    <ModalLayout title={t('basket.title')} labelClose={t('basket.close')}
-                 onClose={callbacks.closeModal}>
+    <ModalLayout title={t('basket.title')} onClose={callbacks.closeModal}>
       <List list={select.list} renderItem={renders.itemBasket}/>
-      <BasketTotal sum={select.sum} t={t}/>
+      <BasketTotal sum={select.sum}/>
     </ModalLayout>
   );
 }

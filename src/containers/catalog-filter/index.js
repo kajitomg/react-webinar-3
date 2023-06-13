@@ -1,5 +1,4 @@
 import {memo, useCallback, useMemo} from "react";
-import useTranslate from "../../hooks/use-translate";
 import useStore from "../../hooks/use-store";
 import useSelector from "../../hooks/use-selector";
 import Select from "../../components/select";
@@ -7,6 +6,7 @@ import Input from "../../components/input";
 import SideLayout from "../../components/side-layout";
 import treeToList from "../../utils/tree-to-list";
 import listToTree from "../../utils/list-to-tree";
+import useTranslate from "../../hooks/use-translate";
 
 function CatalogFilter() {
 

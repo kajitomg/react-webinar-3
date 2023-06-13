@@ -2,10 +2,14 @@ import {memo} from "react";
 import PropTypes from 'prop-types';
 import {cn as bem} from '@bem-react/classname';
 import numberFormat from "../../utils/number-format";
+import useTranslate from "../../hooks/use-translate";
 import './style.css';
 
-function BasketTotal({sum, t}) {
+function BasketTotal({sum}) {
   const cn = bem('BasketTotal');
+
+  const {t} = useTranslate();
+
   return (
     <div className={cn()}>
       <span className={cn('cell')}>{t('basket.total')}</span>
@@ -16,8 +20,7 @@ function BasketTotal({sum, t}) {
 }
 
 BasketTotal.propTypes = {
-  sum: PropTypes.number,
-  t: PropTypes.func
+  sum: PropTypes.number
 };
 
 BasketTotal.defaultProps = {

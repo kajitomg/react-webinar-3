@@ -12,8 +12,8 @@ import LocaleSelect from "../../containers/locale-select";
 import TopHead from "../../containers/top-head";
 import {useDispatch, useSelector as useSelectorRedux} from 'react-redux';
 import shallowequal from "shallowequal";
-import articleActions from '../../store-redux/article/actions';
-import commentActions from '../../store-redux/comment/actions';
+import articleActions from '../../services/store-redux/article/actions';
+import commentActions from '../../services/store-redux/comment/actions';
 import ArticleComments from "../../containers/article-comments";
 
 function Article() {
@@ -46,7 +46,7 @@ function Article() {
       </Head>
       <Navigation/>
       <Spinner active={select.waiting}>
-        <ArticleCard article={select.article} onAdd={callbacks.addToBasket} t={t}/>
+        <ArticleCard article={select.article} onAdd={callbacks.addToBasket}/>
       </Spinner>
       <Spinner active={select.waiting}>
         <ArticleComments/>

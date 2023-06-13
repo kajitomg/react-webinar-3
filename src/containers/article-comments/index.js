@@ -10,7 +10,7 @@ import CommentsResponse from "../../components/comments-response";
 import CommentsAuth from "../../components/comments-auth";
 import useSelector from "../../hooks/use-selector";
 import {useDispatch} from "react-redux";
-import commentActions from "../../store-redux/comment/actions";
+import commentActions from "../../services/store-redux/comment/actions";
 import commentsToTree from "../../utils/comments-to-tree";
 import useTranslate from "../../hooks/use-translate";
 
@@ -54,7 +54,7 @@ function ArticleComments() {
     item: useCallback(item => (
       <ArticleComment text={item?.text} date={dateFormat(item?.dateCreate).split('г.').join('')} author={searchUser(select.users,item?.author?._id)?.profile?.name}
                       setCommented={callbacks.setCommented} id={item._id} onAdd={callbacks.onAdd} nested={item.parent._id !== select.article._id}
-                      isUser={item?.author?._id === select.user._id} answer={t('comment.answer')}>
+                      isUser={item?.author?._id === select.user._id}>
         {item.children.length > 0 && <Comments comments={item.children} renderItem={renders.item} nested={true}/>}
         {select.commented === item._id ?
           select.exists
@@ -69,11 +69,11 @@ function ArticleComments() {
   };
   return (
     <>
-      <CommentsAmount amount={select.comments.length} comments={t('comment.comments')}/>
+      <CommentsAmount amount={select.comments.length}/>
       <Comments comments={commentsToTree(select.comments)} renderItem={renders.item}/>
       {select.commented === select.article._id ?
         select.exists ?
-          <CommentsResponse title={t('comment.newComment')} article={select.article._id} setCommented={callbacks.setCommented} onAdd={callbacks.onAdd} submit={t('comment.submit')}/> :
+          <CommentsResponse title={t('comment.newComment')} article={select.article._id} setCommented={callbacks.setCommented} onAdd={callbacks.onAdd}/> :
           <CommentsAuth text={'чтобы иметь возможность комментировать'} setCommented={callbacks.setCommented}/>
         :
         ''
