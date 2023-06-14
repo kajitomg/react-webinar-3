@@ -11,25 +11,20 @@ import Spinner from "../../components/spinner";
 import LocaleSelect from "../../containers/locale-select";
 import TopHead from "../../containers/top-head";
 import ProfileCard from "../../components/profile-card";
-import useServices from "../../hooks/use-services";
 
 function Profile() {
   const store = useStore();
-  const api = useServices().api
+  const {t,lang} = useTranslate();
 
   useInit(() => {
     store.actions.profile.load();
-    return api.subscribe(async () => {
-      store.actions.profile.load();
-    })
-  }, []);
+  }, [lang]);
 
   const select = useSelector(state => ({
     profile: state.profile.data,
     waiting: state.profile.waiting,
   }));
 
-  const {t} = useTranslate();
 
   return (
     <PageLayout>

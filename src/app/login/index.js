@@ -12,25 +12,18 @@ import {useLocation, useNavigate} from "react-router-dom";
 import useStore from "../../hooks/use-store";
 import useSelector from "../../hooks/use-selector";
 import useInit from "../../hooks/use-init";
-import articleActions from "../../services/store-redux/article/actions";
-import commentActions from "../../services/store-redux/comment/actions";
-import useServices from "../../hooks/use-services";
 
 
 function Login() {
 
-  const {t} = useTranslate();
+  const {t,lang} = useTranslate();
   const location = useLocation();
   const navigate = useNavigate();
   const store = useStore();
-  const api = useServices().api
 
   useInit(() => {
     store.actions.session.resetErrors();
-    return api.subscribe(() => {
-      store.actions.session.resetErrors();
-    })
-  })
+  },[lang])
 
   const select = useSelector(state => ({
     waiting: state.session.waiting,
