@@ -12,6 +12,7 @@ export default function useTranslate() {
     return {
       lang:i18n.language,
       setLang:(lang) => {
+        api.setHeader(i18n.config.modules.session.languageHeader,lang)
         return i18n.setLanguage(lang)
       },
       t:(text,plural,lang) => {
@@ -28,15 +29,10 @@ export default function useTranslate() {
       setState(props);
     });
   }, []); // Нет зависимостей - исполнится один раз
-  const unsubscribeApi = useMemo(() => {
-    // Подписка. Возврат функции для отписки
-    return api.subscribe(() => {
-      api.setHeader(i18n.config.modules.session.languageHeader,i18n.language)
-    });
-  }, []);  // Нет зависимостей - исполнится один раз
 
   // Отписка от i18n и api при демонтировании компонента
-  useLayoutEffect(() => {unsubscribeApi;unsubscribeI18n}, [unsubscribeI18n,unsubscribeApi]);
+  //useLayoutEffect(() => unsubscribeApi, [unsubscribeApi]);
+  useLayoutEffect(() => unsubscribeI18n, [unsubscribeI18n]);
 
   return state
 }

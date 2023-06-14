@@ -8,31 +8,11 @@ class APIService {
   constructor(services, config = {}, lang) {
     this.services = services;
     this.config = config
-    this.listeners = []
     this.defaultHeaders = {
       'Content-Type': 'application/json',
       'Accept-Language':lang
     }
   }
-  /**
-   * Добавление слушателя
-   * @param listener {Function} Функция
-   */
-  subscribe(listener) {
-    this.listeners.push(listener);
-    // Возвращается функция для удаления добавленного слушателя
-    return () => {
-      this.listeners = this.listeners.filter(item => item !== listener);
-    }
-  }
-
-  /**
-   * Оповещение слушателей
-   */
-  callListeners() {
-    this.listeners.forEach(func => func());
-  }
-
   /**
    * HTTP запрос
    * @param url

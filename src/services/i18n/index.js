@@ -68,7 +68,6 @@ class I18n {
     this.language = lang
 
     this.callListeners()
-    this.services.api.callListeners()
 
     return this.language;
   }
