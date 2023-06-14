@@ -1,7 +1,6 @@
 import {memo, useCallback, useRef} from "react";
 import {cn as bem} from '@bem-react/classname';
 import PropTypes from "prop-types";
-import useTranslate from "../../hooks/use-translate";
 import './style.css';
 
 function ArticleComment(props){
@@ -19,8 +18,6 @@ function ArticleComment(props){
     },[])
   }
 
-  const {t} = useTranslate();
-
   return (
     <div className={cn({nested:props.nested})}>
       <div className={cn('info')}>
@@ -29,7 +26,7 @@ function ArticleComment(props){
       </div>
       <div className={cn('text')}>{props.text}</div>
       <div className={cn('buttons')}>
-        <span className={cn('button')} role={'button'} onClick={callbacks.setCommented}>{t('comment.answer')}</span>
+        <span className={cn('button')} role={'button'} onClick={callbacks.setCommented}>{props.answer}</span>
       </div>
       {props.children}
       <div ref={ref}></div>
@@ -45,7 +42,7 @@ ArticleComment.propTypes = {
   nested:PropTypes.bool,
   onAdd:PropTypes.func,
   setCommented:PropTypes.func,
-  answer:PropTypes.string
+  answer:PropTypes.string,
 };
 
 ArticleComment.defaultProps = {

@@ -1,13 +1,10 @@
 import {memo} from "react";
 import PropTypes from 'prop-types';
 import {cn as bem} from "@bem-react/classname";
-import useTranslate from "../../hooks/use-translate";
 import './style.css';
 
-function CommentsAmount({amount}){
+function CommentsAmount({amount,t}){
   const cn = bem('CommentsAmount');
-
-  const {t} = useTranslate();
 
   return (
     <div className={cn()}>
@@ -17,11 +14,13 @@ function CommentsAmount({amount}){
 }
 
 CommentsAmount.propTypes = {
-  amount:PropTypes.number
+  amount:PropTypes.number,
+  t:PropTypes.func
 };
 
 CommentsAmount.defaultProps = {
-  amount:0
+  amount:0,
+  t: (text) => text
 }
 
 export default memo(CommentsAmount);

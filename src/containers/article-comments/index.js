@@ -13,6 +13,7 @@ import {useDispatch} from "react-redux";
 import commentActions from "../../services/store-redux/comment/actions";
 import commentsToTree from "../../utils/comments-to-tree";
 import useTranslate from "../../hooks/use-translate";
+import Spinner from "../../components/spinner";
 
 function ArticleComments() {
 
@@ -20,6 +21,7 @@ function ArticleComments() {
 
   const selectRedux = useSelectorRedux(state => ({
     comments: state.comment.comments,
+    waiting: state.comment.waiting,
     users: state.comment.users,
     commented: state.comment.commented,
     article: state.article.data
@@ -48,18 +50,18 @@ function ArticleComments() {
     }
   }
 
-  const {t} = useTranslate();
+  const {t,lang} = useTranslate();
 
   const renders = {
     item: useCallback(item => (
-      <ArticleComment text={item?.text} date={dateFormat(item?.dateCreate).split('г.').join('')} author={searchUser(select.users,item?.author?._id)?.profile?.name}
+      <ArticleComment text={item?.text} date={dateFormat(item?.dateCreate,lang).split('г.').join('')} author={searchUser(select.users,item?.author?._id)?.profile?.name}
                       setCommented={callbacks.setCommented} id={item._id} onAdd={callbacks.onAdd} nested={item.parent._id !== select.article._id}
-                      isUser={item?.author?._id === select.user._id}>
+                      isUser={item?.author?._id === select.user._id} answer={t('comment.answer')}>
         {item.children.length > 0 && <Comments comments={item.children} renderItem={renders.item} nested={true}/>}
         {select.commented === item._id ?
           select.exists
             ?
-            <CommentsResponse title={t('comment.newAnswer')} button={t('comment.cancel')} nested={true} paddingOff={item.parent._tree.length >= 22} onClose={callbacks.onClose} onAdd={callbacks.onAdd} parent={item} submit={t('comment.submit')}/> :
+            <CommentsResponse title={t('comment.newAnswer')} button={t('comment.cancel')} nested={true} paddingOff={item.parent._tree.length >= 22} onClose={callbacks.onClose} onAdd={callbacks.onAdd} parent={item} submit={t('comment.submit')} t={t}/> :
             <CommentsAuth text={'чтобы иметь возможность ответить.'} button={t('comment.cancel')} nested={true} paddingOff={item.parent._tree.length >= 22} onClose={callbacks.onClose}/>
           :
           ''
@@ -68,17 +70,17 @@ function ArticleComments() {
     ), [select.users, select.exists, select.commented, select.users, t]),
   };
   return (
-    <>
-      <CommentsAmount amount={select.comments.length}/>
+    <Spinner active={select.waiting}>
+      <CommentsAmount amount={select.comments.length} t={t}/>
       <Comments comments={commentsToTree(select.comments)} renderItem={renders.item}/>
       {select.commented === select.article._id ?
         select.exists ?
-          <CommentsResponse title={t('comment.newComment')} article={select.article._id} setCommented={callbacks.setCommented} onAdd={callbacks.onAdd}/> :
+          <CommentsResponse title={t('comment.newComment')} article={select.article._id} setCommented={callbacks.setCommented} onAdd={callbacks.onAdd} t={t}/> :
           <CommentsAuth text={'чтобы иметь возможность комментировать'} setCommented={callbacks.setCommented}/>
         :
         ''
       }
-    </>
+    </Spinner>
   )
 }
 

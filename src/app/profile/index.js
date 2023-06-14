@@ -8,16 +8,20 @@ import PageLayout from "../../components/page-layout";
 import Head from "../../components/head";
 import Navigation from "../../containers/navigation";
 import Spinner from "../../components/spinner";
-import ArticleCard from "../../components/article-card";
 import LocaleSelect from "../../containers/locale-select";
 import TopHead from "../../containers/top-head";
 import ProfileCard from "../../components/profile-card";
+import useServices from "../../hooks/use-services";
 
 function Profile() {
   const store = useStore();
+  const api = useServices().api
 
   useInit(() => {
     store.actions.profile.load();
+    return api.subscribe(async () => {
+      store.actions.profile.load();
+    })
   }, []);
 
   const select = useSelector(state => ({
@@ -35,7 +39,7 @@ function Profile() {
       </Head>
       <Navigation/>
       <Spinner active={select.waiting}>
-        <ProfileCard data={select.profile}/>
+        <ProfileCard data={select.profile} t={t}/>
       </Spinner>
     </PageLayout>
   );

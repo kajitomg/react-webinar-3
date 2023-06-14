@@ -6,6 +6,7 @@ import {useCallback, useLayoutEffect, useMemo, useState} from "react";
  */
 export default function useTranslate() {
   const i18n = useServices().i18n
+  const api = useServices().api
 
   const props = useCallback(() => {
     return {
@@ -27,9 +28,15 @@ export default function useTranslate() {
       setState(props);
     });
   }, []); // Нет зависимостей - исполнится один раз
+  const unsubscribeApi = useMemo(() => {
+    // Подписка. Возврат функции для отписки
+    return api.subscribe(() => {
+      api.setHeader(i18n.config.modules.session.languageHeader,i18n.language)
+    });
+  }, []);  // Нет зависимостей - исполнится один раз
 
-  // Отписка от i18n при демонтировании компонента
-  useLayoutEffect(() => unsubscribeI18n, [unsubscribeI18n]);
+  // Отписка от i18n и api при демонтировании компонента
+  useLayoutEffect(() => {unsubscribeApi;unsubscribeI18n}, [unsubscribeI18n,unsubscribeApi]);
 
   return state
 }

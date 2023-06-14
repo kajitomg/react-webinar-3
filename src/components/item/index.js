@@ -1,10 +1,9 @@
-import {memo, useState} from "react";
+import {memo} from "react";
 import PropTypes from "prop-types";
 import {cn as bem} from '@bem-react/classname';
 import numberFormat from "../../utils/number-format";
-import './style.css';
 import {Link} from "react-router-dom";
-import useTranslate from "../../hooks/use-translate";
+import './style.css';
 
 function Item(props){
 
@@ -14,8 +13,6 @@ function Item(props){
     onAdd: (e) => props.onAdd(props.item._id),
   }
 
-  const {t} = useTranslate();
-
   return (
     <div className={cn()}>
       <div className={cn('title')}>
@@ -23,7 +20,7 @@ function Item(props){
       </div>
       <div className={cn('actions')}>
         <div className={cn('price')}>{numberFormat(props.item.price)} {props.labelCurr}</div>
-        <button onClick={callbacks.onAdd}>{t('article.add')}</button>
+        <button onClick={callbacks.onAdd}>{props.t('article.add')}</button>
       </div>
     </div>
   );
@@ -37,12 +34,14 @@ Item.propTypes = {
   }).isRequired,
   link: PropTypes.string,
   onAdd: PropTypes.func,
-  labelCurr: PropTypes.string
+  labelCurr: PropTypes.string,
+  t:PropTypes.func
 };
 
 Item.defaultProps = {
   onAdd: () => {},
   labelCurr: '₽',
+  t:(text) => text
 }
 
 export default memo(Item);

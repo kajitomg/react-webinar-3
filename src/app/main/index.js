@@ -9,16 +9,24 @@ import CatalogFilter from "../../containers/catalog-filter";
 import CatalogList from "../../containers/catalog-list";
 import LocaleSelect from "../../containers/locale-select";
 import TopHead from "../../containers/top-head";
+import useServices from "../../hooks/use-services";
 
 function Main() {
 
   const store = useStore();
+  const api = useServices().api
 
   useInit(async () => {
     await Promise.all([
       store.actions.catalog.initParams(),
       store.actions.categories.load()
     ]);
+    return api.subscribe(async () => {
+      await Promise.all([
+        store.actions.catalog.initParams(),
+        store.actions.categories.load()
+      ]);
+    })
   }, [], true);
 
   const {t} = useTranslate();

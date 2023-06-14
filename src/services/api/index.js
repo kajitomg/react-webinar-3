@@ -33,7 +33,6 @@ class APIService {
     this.listeners.forEach(func => func());
   }
 
-
   /**
    * HTTP запрос
    * @param url
@@ -63,7 +62,6 @@ class APIService {
     } else if (this.defaultHeaders[name]) {
       delete this.defaultHeaders[name];
     }
-    this.callListeners()
   }
 }
 

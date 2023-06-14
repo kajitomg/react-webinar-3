@@ -1,7 +1,6 @@
 import {memo, useState} from "react";
 import {cn as bem} from '@bem-react/classname';
 import PropTypes from "prop-types";
-import useTranslate from "../../hooks/use-translate";
 import './style.css';
 
 function CommentsResponse(props){
@@ -24,15 +23,13 @@ function CommentsResponse(props){
     }
   }
 
-  const {t} = useTranslate();
-
   return (
     <div className={cn({nested:props.nested,paddingOff:props.paddingOff})}>
       <form className={cn('form')}>
         <h4 className={cn('title')}>{props.title}</h4>
         <textarea className={cn('textarea')} value={text} onChange={callbacks.onChange}></textarea>
         <div className={cn('buttons')}>
-          <button className={cn('button')} role={'button'} onClick={callbacks.onAdd} type={'submit'}>{t('comment.submit')}</button>
+          <button className={cn('button')} role={'button'} onClick={callbacks.onAdd} type={'submit'}>{props.t('comment.submit')}</button>
           {props.button && <button className={cn('button')} role={'button'} onClick={callbacks.onClose}>{props.button}</button>}
         </div>
       </form>
@@ -47,7 +44,8 @@ CommentsResponse.propTypes = {
   onAdd:PropTypes.func,
   parent:PropTypes.object,
   nested:PropTypes.bool,
-  paddingOff:PropTypes.string
+  paddingOff:PropTypes.bool,
+  t:PropTypes.func
 };
 
 CommentsResponse.defaultProps = {
@@ -56,7 +54,8 @@ CommentsResponse.defaultProps = {
   parent:null,
   onClose:() => {},
   onAdd:() => {},
-  nested:false
+  nested:false,
+  t: (text) => text
 }
 
 export default memo(CommentsResponse);

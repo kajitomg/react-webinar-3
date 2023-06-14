@@ -12,6 +12,9 @@ import {useLocation, useNavigate} from "react-router-dom";
 import useStore from "../../hooks/use-store";
 import useSelector from "../../hooks/use-selector";
 import useInit from "../../hooks/use-init";
+import articleActions from "../../services/store-redux/article/actions";
+import commentActions from "../../services/store-redux/comment/actions";
+import useServices from "../../hooks/use-services";
 
 
 function Login() {
@@ -20,9 +23,13 @@ function Login() {
   const location = useLocation();
   const navigate = useNavigate();
   const store = useStore();
+  const api = useServices().api
 
   useInit(() => {
     store.actions.session.resetErrors();
+    return api.subscribe(() => {
+      store.actions.session.resetErrors();
+    })
   })
 
   const select = useSelector(state => ({

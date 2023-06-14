@@ -3,12 +3,9 @@ import PropTypes from 'prop-types';
 import {cn as bem} from '@bem-react/classname';
 import numberFormat from "../../utils/number-format";
 import './style.css';
-import useTranslate from "../../hooks/use-translate";
 
-function ArticleCard({article, onAdd}) {
+function ArticleCard({article, onAdd,t}) {
   const cn = bem('ArticleCard');
-
-  const {t} = useTranslate();
 
   return (
     <div className={cn()}>
@@ -43,7 +40,8 @@ ArticleCard.propTypes = {
     edition: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     price: PropTypes.number
   }).isRequired,
-  onAdd: PropTypes.func
+  onAdd: PropTypes.func,
+  t:PropTypes.func
 };
 
 ArticleCard.defaultProps = {

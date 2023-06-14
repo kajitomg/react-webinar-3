@@ -39,14 +39,15 @@ function Basket() {
                   link={`/articles/${item._id}`}
                   onRemove={callbacks.removeFromBasket}
                   onLink={callbacks.closeModal}
+                  t={t}
       />
     ), [callbacks.removeFromBasket]),
   };
 
   return (
-    <ModalLayout title={t('basket.title')} onClose={callbacks.closeModal}>
+    <ModalLayout title={t('basket.title')} onClose={callbacks.closeModal} t={t}>
       <List list={select.list} renderItem={renders.itemBasket}/>
-      <BasketTotal sum={select.sum}/>
+      <BasketTotal sum={select.sum} t={t}/>
     </ModalLayout>
   );
 }

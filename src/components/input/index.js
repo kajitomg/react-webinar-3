@@ -2,7 +2,6 @@ import {memo, useCallback, useLayoutEffect, useState} from 'react';
 import PropTypes from "prop-types";
 import {cn as bem} from '@bem-react/classname';
 import debounce from 'lodash.debounce';
-
 import './style.css';
 
 function Input(props) {

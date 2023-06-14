@@ -34,5 +34,11 @@
   "profile.title": "Profile",
   "profile.name": "Name",
   "profile.phone": "Phonenumber",
-  "profile.email": "email"
+  "profile.email": "email",
+  "filter.all":  "All",
+  "filter.order":  "In order",
+  "filter.naming":  "By naming",
+  "filter.dear":  "dear ones first",
+  "filter.old":  "The old",
+  "filter.search":  "Search"
 }

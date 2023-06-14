@@ -2,12 +2,9 @@ import {memo} from "react";
 import PropTypes from 'prop-types';
 import {cn as bem} from '@bem-react/classname';
 import './style.css';
-import useTranslate from "../../hooks/use-translate";
 
-function ProfileCard({data}) {
+function ProfileCard({data,t}) {
   const cn = bem('ProfileCard');
-
-  const {t} = useTranslate();
 
   return (
     <div className={cn()}>
@@ -30,10 +27,12 @@ function ProfileCard({data}) {
 
 ProfileCard.propTypes = {
   data: PropTypes.object.isRequired,
+  t:PropTypes.func
 };
 
 ProfileCard.defaultProps = {
-  onAdd: () => {}
+  onAdd: () => {},
+  t:(text) => text
 }
 
 export default memo(ProfileCard);

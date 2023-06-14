@@ -15,10 +15,12 @@ import shallowequal from "shallowequal";
 import articleActions from '../../services/store-redux/article/actions';
 import commentActions from '../../services/store-redux/comment/actions';
 import ArticleComments from "../../containers/article-comments";
+import useServices from "../../hooks/use-services";
 
 function Article() {
   const store = useStore();
   const dispatch = useDispatch();
+  const api = useServices().api
   // Параметры из пути /articles/:id
   const params = useParams();
 
@@ -30,13 +32,18 @@ function Article() {
   useInit(() => {
     dispatch(articleActions.load(params.id));
     dispatch(commentActions.load(params.id));
+    return api.subscribe(() => {
+      dispatch(articleActions.load(params.id));
+      dispatch(commentActions.load(params.id));
+    })
+  }, [params.id],true);
 
-  }, [params.id]);
-  const {t} = useTranslate();
   const callbacks = {
     // Добавление в корзину
     addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store]),
   }
+
+  const {t} = useTranslate();
 
   return (
     <PageLayout>
@@ -46,7 +53,7 @@ function Article() {
       </Head>
       <Navigation/>
       <Spinner active={select.waiting}>
-        <ArticleCard article={select.article} onAdd={callbacks.addToBasket}/>
+        <ArticleCard article={select.article} onAdd={callbacks.addToBasket} t={t}/>
       </Spinner>
       <Spinner active={select.waiting}>
         <ArticleComments/>
